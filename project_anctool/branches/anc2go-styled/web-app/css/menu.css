@@ -1,0 +1,10 @@
+/* Drop menu formatting. */
+.drop-menu {
+	/* background-color: #CCCCCC; */
+	visibility: hidden;
+	position: absolute;
+	z-index: 1000;
+	width: 10em;
+	height: auto;
+	border: thin solid black; 
+}
