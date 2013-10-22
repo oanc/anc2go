@@ -1,0 +1,174 @@
+corpora {
+	/*
+	corpus {
+		name 'OANC'
+		version '1.2.0'
+		root '/var/corpora/OANC'
+		directories {
+			directory {
+				name 'Written'
+				path 'written'
+				textClass 'WR'
+				directory {
+					name 'Fiction'
+					path 'fiction'
+					textClass 'FC'
+				}
+				directory {
+					name 'Journal'
+					path 'journal'
+					textClass 'JO'
+				}
+				directory {
+					name 'Letters'
+					path 'letters'
+					textClass 'LT'
+				}
+				directory {
+					name 'Non-Fiction'
+					path 'non-fiction'
+					textClass 'NF'
+				}
+				directory {
+					name 'Technical'
+					path 'technical'
+					textClass 'TC'
+				}
+				directory {
+					name 'Travel Guides'
+					path 'travel_guides'
+					textClass 'TG'
+				}
+				
+			}
+			directory {
+				name 'Spoken'
+				path 'spoken'
+				textClass 'SP'
+				directory {
+					name 'Face to face'
+					path 'face-to-face'
+					textClass 'FF'
+				}
+				directory {
+					name 'Telephone'
+					path 'telephone'
+					textClass 'TP'
+				}
+			}
+		}
+	}
+	*/
+	corpus {
+		name('MASC')
+		version('3.0.0')
+		root('/var/corpora/MASC-3.0.0-RC1')
+		directories {
+			directory {
+				name('Written')
+				path('written')
+				textClass('WR')
+				directory {
+					name('Blog')
+					path('blog')
+					textClass('BL')
+				}
+				directory {
+					name('Email')
+					path('email')
+					textClass('EM')
+				}
+				directory {
+					name('Essays')
+					path('essays')
+					textClass('ES')
+				}
+				directory {
+					name('Ficlets')
+					path('ficlets')
+					textClass('FT')
+				}
+				directory {
+					name('Fiction')
+					path('fiction')
+					textClass('FT')
+				}
+				directory {
+					name('Government Documents')
+					path('govt-docs')
+					textClass('GV')
+				}
+				directory {
+					name('Jokes')
+					path('jokes')
+					textClass('JK')
+				}
+				directory {
+					name('Journal')
+					path('journal')
+					textClass('JO')
+				}
+				directory {
+					name('Letters')
+					path('letters')
+					textClass('LT')
+				}
+				directory {
+					name('Movie Script')
+					path('movie-script')
+					textClass('MS')
+				}
+				directory {
+					name('Newspaper')
+					path('newspaper')
+					textClass('NP')
+				}
+				directory {
+					name('Non-fiction')
+					path('non-fiction')
+					textClass('NF')
+				}
+				directory {
+					name('Technical Document')
+					path('technical')
+					textClass('TC')
+				}
+				directory {
+					name('Travel Guides')
+					path('travel-guides')
+					textClass('TG')
+				}
+				directory {
+					name('Tweets')
+					path('twitter')
+					textClass('TW')
+				}
+			}
+			directory {
+				name('Spoken')
+				path('spoken')
+				textClass('SP')
+				directory {
+					name('Court Transcript')
+					path('court-transcript')
+					textClass('TR')
+				}
+				directory {
+					name('Debate Transcript')
+					path('debate-transcript')
+					textClass('TR')
+				}
+				directory {
+					name('Face to Face')
+					path('face-to-face')
+					textClass('FF')
+				}
+				directory {
+					name('Telephone')
+					path('telephone')
+					textClass('TP')
+				}
+			}
+		}
+	}
+}
