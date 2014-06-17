@@ -1,65 +1,129 @@
-corpora {
-	/*
-	corpus {
-		name 'OANC'
-		version '1.2.0'
-		root '/var/corpora/OANC'
+corpora {	
+
+corpus {
+		name('MASC')
+		version('3.0.0')
+		root('/var/corpora/MASC-3.0.0-RC1')
 		directories {
 			directory {
-				name 'Written'
-				path 'written'
-				textClass 'WR'
+				name('Written')
+				path('written')
+				textClass('WR')
 				directory {
-					name 'Fiction'
-					path 'fiction'
-					textClass 'FC'
+					name('Blog')
+					path('blog')
+					textClass('BL')
 				}
 				directory {
-					name 'Journal'
-					path 'journal'
-					textClass 'JO'
+					name('Email')
+					path('email')
+					textClass('EM')
 				}
 				directory {
-					name 'Letters'
-					path 'letters'
-					textClass 'LT'
+					name('Essays')
+					path('essays')
+					textClass('ES')
 				}
 				directory {
-					name 'Non-Fiction'
-					path 'non-fiction'
-					textClass 'NF'
+					name('Ficlets')
+					path('ficlets')
+					textClass('FT')
 				}
 				directory {
-					name 'Technical'
-					path 'technical'
-					textClass 'TC'
+					name('Fiction')
+					path('fiction')
+					textClass('FT')
 				}
 				directory {
-					name 'Travel Guides'
-					path 'travel_guides'
-					textClass 'TG'
-				}
-				
-			}
-			directory {
-				name 'Spoken'
-				path 'spoken'
-				textClass 'SP'
-				directory {
-					name 'Face to face'
-					path 'face-to-face'
-					textClass 'FF'
+					name('Government Documents')
+					path('govt-docs')
+					textClass('GV')
 				}
 				directory {
-					name 'Telephone'
-					path 'telephone'
-					textClass 'TP'
+					name('Jokes')
+					path('jokes')
+					textClass('JK')
+				}
+				directory {
+					name('Journal')
+					path('journal')
+					textClass('JO')
+				}
+				directory {
+					name('Letters')
+					path('letters')
+					textClass('LT')
+				}
+				directory {
+					name('Movie Script')
+					path('movie-script')
+					textClass('MS')
+				}
+				directory {
+					name('Newspaper')
+					path('newspaper')
+					textClass('NP')
+				}
+				directory {
+					name('Non-fiction')
+					path('non-fiction')
+					textClass('NF')
+				}
+				directory {
+					name('Technical Document')
+					path('technical')
+					textClass('TC')
+				}
+				directory {
+					name('Travel Guides')
+					path('travel-guides')
+					textClass('TG')
+				}
+				directory {
+					name('Tweets')
+					path('twitter')
+					textClass('TW')
 				}
 			}
 		}
 	}
-	*/
+	
 	corpus {
+		name('OANC')
+		version('3.0.1')
+		root('/var/corpora/MASC-3.0.1-RC1')
+		directories {
+			directory {
+				name('Spoken')
+				path('spoken')
+				textClass('SP')
+				directory {
+					name('Court Transcript')
+					path('court-transcript')
+					textClass('TR')
+				}
+				directory {
+					name('Debate Transcript')
+					path('debate-transcript')
+					textClass('TR')
+				}
+				directory {
+					name('Face to Face')
+					path('face-to-face')
+					textClass('FF')
+				}
+				directory {
+					name('Telephone')
+					path('telephone')
+					textClass('TP')
+				}
+			}
+		}
+	}
+
+	
+
+	/*corpus {
 		name('MASC')
 		version('3.0.0')
 		root('/var/corpora/MASC-3.0.0-RC1')
@@ -170,5 +234,5 @@ corpora {
 				}
 			}
 		}
-	}
+	}*/
 }

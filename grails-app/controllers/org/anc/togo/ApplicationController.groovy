@@ -28,20 +28,54 @@ class ApplicationController {
       println "Calling application.index"
       def corpora = []
       def labels = []
-      Corpus.list().each {
+      def selectedCorpusName = params.corpusName
+      def selectedCorpus
+
+      Corpus.list().sort() each {
          corpora.add(it)
          labels.add(it.toString())
-      }      
+      } 
+
+      //selected corpus is taken from the URL
+      //defaults to the first if there isn't anything
+      if(selectedCorpusName==null)
+      {
+         selectedCorpusName = corpora[0].name.toUpperCase()
+         selectedCorpus = corpora[0]
+      }
+      else
+      {
+         selectedCorpusName = selectedCorpusName.toUpperCase()
+         selectedCorpus = findCorpusByName(selectedCorpusName,corpora)
+      }
       
+      def descriptors = processingService.getDescriptors()
+
 //      log.info("# Descriptors: ${descriptors.size()}")
+
       [
 		  corpora:corpora, 
 		  labels:labels, 
 		  processors:Processor.list(), 
-		  descriptors:processingService.getDescriptors(),
-		  email:Globals.SMTP.DEFAULT_ADDRESS
-	  ]   
+		  descriptors:descriptors,
+		  email:Globals.SMTP.DEFAULT_ADDRESS,
+        corpus:selectedCorpus
+	  ] 
 	}
+
+   def findCorpusByName(name,corpora) {
+      for(c in corpora) {
+         if(c.name.equals(name)) {
+            return c
+         }
+      }
+      println "ERROR"
+      return corpora[0]
+   }
+
+   def options = {
+      
+   }
 	
    def test = {
       def corpora = []
