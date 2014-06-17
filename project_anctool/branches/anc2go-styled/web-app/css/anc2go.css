@@ -1,0 +1,123 @@
+#options {
+	height:250px;
+	-webkit-column-count:2; /* Chrome, Safari, Opera */
+	-moz-column-count:2; /* Firefox */
+	column-count:2;
+}
+
+#right-panel {
+	float: left;
+	padding-left:15px;
+	height:320px;
+}
+
+#select-buttons {
+	padding-top:10px;
+}
+
+#side-links {
+	float:left;
+	height:320px;
+	padding-right:20px;
+	border-right:1px solid #BBB;
+}
+
+#content_wrapper {
+	margin-top:-35px;
+}
+
+.instruction {
+	font-size:15pt;
+}
+
+.tool-section {
+	margin-top:10px;
+	margin-bottom:20px;
+	margin-right:20px;
+	padding:20px;
+	overflow:hidden;
+	background-color:#F3F3F3;
+}
+
+.annotation-section {
+	float:left;
+	width:20%;
+	margin:0px auto 0px auto;
+	font-size:10pt;
+	font-style:italic;
+}
+
+.annotation-options {
+	margin-top:10px;
+}
+
+.annotation-options td {
+	padding:0px;
+	margin:0px;
+}
+
+.annotation {
+	font-size:12pt;
+	font-style: normal;
+	padding-bottom:10px;
+}
+
+#email-field, #info-field {
+	width:50%;
+	float:left;
+}
+
+#info-field {
+	font-style:italic;
+	font-weight:400;
+	color:#757575;
+	margin-top:2px;
+}
+
+#submit-div {
+	text-align:center;
+}
+
+.form-control {
+  width: 70%;
+  height: 30px;
+  padding: 6px 12px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.form-control::-moz-placeholder {
+  color: #999999;
+  opacity: 1;
+}
+.form-control:-ms-input-placeholder {
+  color: #999999;
+}
+.form-control::-webkit-input-placeholder {
+  color: #999999;
+}
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+  opacity: 1;
+}
+
+body {
+	font-weight:300;
+}

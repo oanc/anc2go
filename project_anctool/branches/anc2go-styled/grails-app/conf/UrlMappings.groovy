@@ -20,5 +20,15 @@ class UrlMappings {
       
       "/index"(view:"index")
 		"500"(view:'/error')
+
+	  "/$corpusName" {
+	  	controller = "application"
+        action = "index"
+	  	constraints {
+	  		//matches "oanc" or "masc"
+	  		corpusName(matches:"(?i)(o|m)a(n|s)c")
+	  	}
+
+	  }
 	}
 }

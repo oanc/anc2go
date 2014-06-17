@@ -63,7 +63,18 @@ grails.project.dependency.resolution = {
       runtime "ch.qos.logback:logback-core:${versions.logback}" 
 	  runtime "ch.qos.logback:logback-classic:${versions.logback}"
 	  runtime "org.slf4j:log4j-over-slf4j:${versions.slf4j}"
+
+
    }
+
+   plugins {
+        // plugins for the build system only
+        build ':tomcat:7.0.42'
+        // plugins needed at runtime but not for compilation
+        runtime ':hibernate:3.6.10.2' 
+        compile "org.anc.grails.plugin:wordpress-template:0.1.2-SNAPSHOT"
+        runtime ":jquery:1.11.0.1"
+    }
 }
 
 grails.war.resources = { stagingDir ->
