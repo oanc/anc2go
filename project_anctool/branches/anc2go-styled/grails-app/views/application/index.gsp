@@ -1,7 +1,10 @@
 <html>
 <head>
 	<title>ANC2Go Multi</title>
+	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<link rel="stylesheet" type="text/css" href=<g:resource dir="css" file="anc2go.css" /> />
+	<link rel="stylesheet" type="text/css" href=<g:resource dir="css" file="bootstrap.min.css" /> />
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<%-- menu code --%>
@@ -78,20 +81,17 @@
 		<div id="right-panel">
 			<h2>Directories:</h2>
 			<div id="options">
-				<table class="list" id="corpDirTable">
-					<g:each in="${corpus.directories.asList().sort()}" var="dir">
-					<tr>
-						<td>
-							<g:checkBox
+			<ul id="corpDirTable">
+				<g:each in="${corpus.directories.asList().sort()}" var="dir">
+					<li><anc:checkbox
 							id="DIR_${corpus.cid}_${dir.did}" 
 							name="F_${corpus.cid}_${dir.did}_dir" 
 							class="DIR_${corpus.cid}" 
 							checked="false"/>
-						</td>
-						<td><label for="DIR_${corpus.cid}_${dir.did}"> ${dir.textClass} - ${dir.name}</label></td>
-					</tr>
+					<label for="DIR_${corpus.cid}_${dir.did}"> ${dir.textClass} - ${dir.name}</label>
+					</li>
 					</g:each>
-				</table>
+			</ul>
 			</div>
 			<div id="select-buttons">
 				<button type="button" onClick="selectAll(true)" class="btn btn-default">Select All</button>
@@ -99,23 +99,27 @@
 			</div>
 		</div>
 	</div>
-	<span class="instruction">Select the annotations:</span>
+	<span class="instruction">Select an annotation type:</span>
 	<div class="tool-section">
-	<g:each var="descriptor" in="${descriptors}">
-	<div class="annotation-section">
-		<g:checkBox
-		id="check_${descriptor.name}"
-		checked="false"/>
-		<label for="check_${descriptor.name}" class="annotation">${descriptor.name}</label>
-		<div class="annotation-options">
-		<g:each var="cd" in="${descriptor.corpora}">
-
-				<%--<g:if test="${cd.notes}">
-					<h3>Notes</h3>
-					<g:each var="p" in="${cd.notes}">
-					<p>${p}</p>
-					</g:each>
-				</g:if>--%>
+		<ul id="annotation-tabs" class="nav nav-tabs">
+		<g:each var="descriptor" in="${descriptors}" status="i">
+    	<g:if test="${i == 0}">
+			<li class="active"><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
+		</g:if>
+		<g:else>
+			<li><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
+		</g:else>
+		</g:each>
+		</ul>
+		<div class="tab-content">
+			<g:each var="descriptor" in="${descriptors}" status="j">
+			 	<g:if test="${j == 0}">
+				<div class="tab-pane active" id="tab_${j}">
+				</g:if>
+				<g:else>
+				<div class="tab-pane" id="tab_${j}">
+				</g:else>
+				<g:each var="cd" in="${descriptor.corpora}">
 				<g:if test="${cd.name==corpus.name}">
 					<g:each var="token" in="${cd.tokens}" status="i">
 						<table class="list">
@@ -131,7 +135,7 @@
 									value="${token.name}" 
 									checked="checked"/></td>
 									<td>
-										${token.description}
+										&nbsp ${token.description}
 									</td>
 
 									<tr>
@@ -163,7 +167,7 @@
 									value="${token.name}" />
 								</td>
 								<td>
-									${token.description}
+									&nbsp ${token.description}
 								</td>
 
 								<g:each var="a" in="${cd.annotations}">
@@ -192,7 +196,7 @@
 							value="${token.name}" />
 						</td>
 						<td>
-							${token.description}
+							&nbsp ${token.description}
 						</td>
 
 						<g:each var="a" in="${cd.annotations}">
@@ -213,10 +217,10 @@
 					</g:each>
 				</g:if>
 
-		</g:each>
+			</g:each>
+			</div>
+			</g:each>
 		</div>
-	</div>
-	</g:each>
 	</div>
 	<span class="instruction">Enter your email:</span>
 	<div class="tool-section">

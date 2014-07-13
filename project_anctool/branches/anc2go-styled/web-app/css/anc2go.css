@@ -15,6 +15,14 @@
 	padding-top:10px;
 }
 
+.tab-pane {
+	background:white;
+	padding:15px;
+	border-bottom:1px solid #e1e1e1;
+	border-left:1px solid #e1e1e1;
+	border-right:1px solid #e1e1e1;
+}
+
 #side-links {
 	float:left;
 	height:320px;
@@ -116,6 +124,15 @@ fieldset[disabled] .form-control {
   cursor: not-allowed;
   background-color: #eeeeee;
   opacity: 1;
+}
+
+#corpDirTable li{
+   list-style:none;
+   padding-bottom:5px;
+}
+
+#corpDirTable {
+	margin-top:0px;
 }
 
 body {
