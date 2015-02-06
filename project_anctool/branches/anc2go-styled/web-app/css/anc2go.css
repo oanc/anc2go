@@ -9,6 +9,20 @@
 	float: left;
 	padding-left:15px;
 	height:320px;
+	width:80%;
+}
+
+#options {
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.white-panel {
+	background:white;
+	border:1px solid #e1e1e1;
+	-webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    border-radius: 4px !important;
 }
 
 #select-buttons {
@@ -16,18 +30,15 @@
 }
 
 .tab-pane {
-	background:white;
 	padding:15px;
-	border-bottom:1px solid #e1e1e1;
-	border-left:1px solid #e1e1e1;
-	border-right:1px solid #e1e1e1;
 }
 
 #side-links {
 	float:left;
 	height:320px;
 	padding-right:20px;
-	border-right:1px solid #BBB;
+	border-right:1px solid #e1e1e1;
+	width:20%;
 }
 
 #content_wrapper {
@@ -35,7 +46,14 @@
 }
 
 .instruction {
-	font-size:15pt;
+	font-size:14pt;
+}
+
+.nav-pills > li > a {
+	background:white;
+	color:black;
+	border:1px solid #e1e1e1;
+	margin-right:15px;
 }
 
 .tool-section {
@@ -45,6 +63,9 @@
 	padding:20px;
 	overflow:hidden;
 	background-color:#F3F3F3;
+	-webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    border-radius: 4px !important;
 }
 
 .annotation-section {
