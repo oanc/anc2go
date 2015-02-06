@@ -206,8 +206,8 @@ class ProcessingService
       def descriptors = []
       descriptors << xmlService.getUIDescriptor()
       descriptors << nltkService.getUIDescriptor()
-      descriptors << conllService.getUIDescriptor()
       descriptors << wordsmithService.getUIDescriptor()
+      descriptors << conllService.getUIDescriptor()
       descriptors << uimaService.getUIDescriptor()
 //      descriptors << rdfService.getUIDescriptor()
       return descriptors

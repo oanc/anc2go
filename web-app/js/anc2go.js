@@ -6,11 +6,10 @@ $('#annotation-tabs a').click(function (e) {
     $(this).tab('show');
 });
 
-function selectAll(bool) {
-	console.log(bool)
+function toggleAll(bool) {
 	for(var i=0; i<checkboxes.length; i++) {
 		if (checkboxes[i].type == 'checkbox') {
-            checkboxes[i].checked = bool;
+            checkboxes[i].checked = !checkboxes[i].checked;
         }
 	}
 }

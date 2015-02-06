@@ -60,7 +60,8 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-	<span class="instruction">Select a corpus and its directories:</span>
+	<g:form action="submit" method="post">
+	<span class="instruction">1. Select a corpus and its directories:</span>
 	<div class="tool-section">
 		<div id="side-links">
 			<h2>Corpora:</h2>
@@ -80,7 +81,7 @@
 		</div>
 		<div id="right-panel">
 			<h2>Directories:</h2>
-			<div id="options">
+			<div class="white-panel" id="options">
 			<ul id="corpDirTable">
 				<g:each in="${corpus.directories.asList().sort()}" var="dir">
 					<li><anc:checkbox
@@ -94,14 +95,13 @@
 			</ul>
 			</div>
 			<div id="select-buttons">
-				<button type="button" onClick="selectAll(true)" class="btn btn-default">Select All</button>
-				<button type="button" onClick="selectAll(false)" class="btn btn-default">Clear All</button>
+				<button type="button" onClick="toggleAll()" class="btn btn-default">Toggle all</button>
 			</div>
 		</div>
 	</div>
-	<span class="instruction">Select an annotation type:</span>
+	<span class="instruction">2. Select an output format:</span>
 	<div class="tool-section">
-		<ul id="annotation-tabs" class="nav nav-tabs">
+		<ul id="annotation-tabs" class="nav nav-pills">
 		<g:each var="descriptor" in="${descriptors}" status="i">
     	<g:if test="${i == 0}">
 			<li class="active"><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
@@ -111,7 +111,10 @@
 		</g:else>
 		</g:each>
 		</ul>
-		<div class="tab-content">
+	</div>
+	<span class="instruction">3. Select a base tokenization, and check the annotation types:</span>
+	<div class="tool-section">
+		<div class="white-panel tab-content">
 			<g:each var="descriptor" in="${descriptors}" status="j">
 			 	<g:if test="${j == 0}">
 				<div class="tab-pane active" id="tab_${j}">
@@ -222,7 +225,7 @@
 			</g:each>
 		</div>
 	</div>
-	<span class="instruction">Enter your email:</span>
+	<span class="instruction">4. Enter your email address:</span>
 	<div class="tool-section">
 		<div id="email-field">
 			<input id="email-input" type="email" class="form-control" placeholder="Email">
@@ -232,8 +235,9 @@
 		</div>
 	</div>
 	<div id="submit-div">
-	<g:actionSubmit id="submit-button" value="Submit" action="options" class="btn btn-primary btn-lg"/>
+	<g:actionSubmit id="submit-button" value="Submit" action="submit" class="btn btn-primary btn-lg"/>
 	</div>
+	</g:form>
 	</wp:section>
 	</wp:wrapper>
 	</wp:frame>
