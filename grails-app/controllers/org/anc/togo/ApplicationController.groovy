@@ -36,6 +36,8 @@ class ApplicationController {
          labels.add(it.toString())
       } 
 
+      println "===**===number " + corpora.size()
+
       //selected corpus is taken from the URL
       //defaults to the first if there isn't anything
       if(selectedCorpusName==null)
@@ -48,18 +50,24 @@ class ApplicationController {
          selectedCorpusName = selectedCorpusName.toUpperCase()
          selectedCorpus = findCorpusByName(selectedCorpusName,corpora)
       }
+
+      println "corpusName: " + selectedCorpusName
       
       def descriptors = processingService.getDescriptors()
+
+      def selectedProcessor = "XML"
 
 //      log.info("# Descriptors: ${descriptors.size()}")
 
       [
+        corpus:selectedCorpus,
+        corpusName:selectedCorpusName,
+        selectedProcessor:selectedProcessor,
 		  corpora:corpora, 
 		  labels:labels, 
 		  processors:Processor.list(), 
 		  descriptors:descriptors,
-		  email:Globals.SMTP.DEFAULT_ADDRESS,
-        corpus:selectedCorpus
+		  email:Globals.SMTP.DEFAULT_ADDRESS
 	  ] 
 	}
 
@@ -128,12 +136,17 @@ class ApplicationController {
 
    def submit = {
       log.info("Submitting")
-	  println "params: ${params}"
+	  //println "params: ${params}"
+     //println "corpus: ${params.corpus}"
       StringBuilder key = new StringBuilder()
 
-      String corpusName = params.selectedCorpus
+      String corpusName = params.corpusName
+      //String corpusName = params.corpus
       String procName = params.selectedProcessor
       
+      println "---corpusName: " + corpusName
+      println "--procName: " + procName
+
       key << corpusName
       key << ":"
       key << procName
