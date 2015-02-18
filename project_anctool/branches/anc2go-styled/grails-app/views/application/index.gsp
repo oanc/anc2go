@@ -60,7 +60,7 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-	<g:form action="submit" method="post">
+	<g:form action="submit" method="post" params="[corpusName : corpusName, selectedProcessor : selectedProcessor]">
 	<span class="instruction">1. Select a corpus and its directories:</span>
 	<div class="tool-section">
 		<div id="side-links">
@@ -105,6 +105,7 @@
 		<g:each var="descriptor" in="${descriptors}" status="i">
     	<g:if test="${i == 0}">
 			<li class="active"><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
+			<g:set var="selectedProcessor" value="${descriptor.name}"/>
 		</g:if>
 		<g:else>
 			<li><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
@@ -225,7 +226,7 @@
 			</g:each>
 		</div>
 	</div>
-	<span class="instruction">4. Enter your email address:</span>
+	<span class="instruction">4. Enter your email addresss:</span>
 	<div class="tool-section">
 		<div id="email-field">
 			<input id="email-input" type="email" class="form-control" placeholder="Email">
