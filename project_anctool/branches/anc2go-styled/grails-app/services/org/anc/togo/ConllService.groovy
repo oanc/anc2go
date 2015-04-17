@@ -57,7 +57,7 @@ class ConllService implements IProcessorService
          return descriptor
     }
 
-   @Override
+   //Override
    public void setProcessor(IProcessor proc)
    {
       processor = proc

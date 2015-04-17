@@ -22,7 +22,7 @@ class Directory implements Comparable<Directory> {
     }
 
 
-   @Override
+   //Override
    public int compareTo(Object o)
    {
       if (this.textClass.equals(((Directory) o).textClass))
