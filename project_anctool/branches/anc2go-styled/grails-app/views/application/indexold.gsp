@@ -60,8 +60,7 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-	<g:form action="submit" method="post" params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]">
-	<span class="instruction">1. Select a corpus and its directories:</span>
+	<span class="instruction">Select a corpus and its directories:</span>
 	<div class="tool-section">
 		<div id="side-links">
 			<h2>Corpora:</h2>
@@ -81,7 +80,7 @@
 		</div>
 		<div id="right-panel">
 			<h2>Directories:</h2>
-			<div class="white-panel" id="options">
+			<div id="options">
 			<ul id="corpDirTable">
 				<g:each in="${corpus.directories.asList().sort()}" var="dir">
 					<li><anc:checkbox
@@ -95,27 +94,24 @@
 			</ul>
 			</div>
 			<div id="select-buttons">
-				<button type="button" onClick="toggleAll()" class="btn btn-default">Toggle all</button>
+				<button type="button" onClick="selectAll(true)" class="btn btn-default">Select All</button>
+				<button type="button" onClick="selectAll(false)" class="btn btn-default">Clear All</button>
 			</div>
 		</div>
 	</div>
-	<span class="instruction">2. Select an output format:</span>
+	<span class="instruction">Select an annotation type:</span>
 	<div class="tool-section">
-		<ul id="annotation-tabs" class="nav nav-pills">
+		<ul id="annotation-tabs" class="nav nav-tabs">
 		<g:each var="descriptor" in="${descriptors}" status="i">
     	<g:if test="${i == 0}">
 			<li class="active"><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
-			<g:set var="selectedProcessor" value="${descriptor.name}"/>
 		</g:if>
 		<g:else>
 			<li><a href="#tab_${i}" data-toggle="tab">${descriptor.name}</a></li>
 		</g:else>
 		</g:each>
 		</ul>
-	</div>
-	<span class="instruction">3. Select a base tokenization, and check the annotation types:</span>
-	<div class="tool-section">
-		<div class="white-panel tab-content">
+		<div class="tab-content">
 			<g:each var="descriptor" in="${descriptors}" status="j">
 			 	<g:if test="${j == 0}">
 				<div class="tab-pane active" id="tab_${j}">
@@ -226,7 +222,7 @@
 			</g:each>
 		</div>
 	</div>
-	<span class="instruction">4. Enter your email addresss:</span>
+	<span class="instruction">Enter your email:</span>
 	<div class="tool-section">
 		<div id="email-field">
 			<input id="email-input" type="email" class="form-control" placeholder="Email">
@@ -236,9 +232,8 @@
 		</div>
 	</div>
 	<div id="submit-div">
-	<g:actionSubmit id="submit-button" value="Submit" action="submit" class="btn btn-primary btn-lg"/>
+	<g:actionSubmit id="submit-button" value="Submit" action="options" class="btn btn-primary btn-lg"/>
 	</div>
-	</g:form>
 	</wp:section>
 	</wp:wrapper>
 	</wp:frame>

@@ -41,7 +41,7 @@ class ProcessingService
    {
       // Load properties file
       log.info("Initializing the ProcessingService")
-      
+      println ("initializing processing service")
       log.info("Loading the corporaMap")
       loadCorporaMap()
       log.info(corporaMap)
@@ -109,15 +109,17 @@ class ProcessingService
     */
    private void loadProcessorMap()
    {
-      if (processorMap) return
+      //if (processorMap) return
       
       // Iterate over jars to get processor classes:
       log.info("Loading processor map.")
+      println "Loading processor map."
       File lib = new File(Globals.PATH.PROCESSORS)
       log.info("Processors directory is " + lib.getAbsolutePath())
       if (!lib.exists())
       {
          log.error("Unable to find the processors directory: " + lib.getPath())
+         println "Unable to find the processors directory: " + lib.getPath()
          return
       }
      
@@ -125,6 +127,7 @@ class ProcessingService
       if (jarList == null || jarList.size() == 0)
       {
          log.error("No processors found in " + lib.getPath())
+         println "No processors found in " + lib.getPath()
          return
       }
      
@@ -133,11 +136,13 @@ class ProcessingService
          urlList << f.toURI().toURL()
       }
       log.debug("There are " + jarList.size() + " processor jars.")
+      println "There are " + jarList.size() + " processor jars."
       // Get class loader
       ClassLoader parentLoader = Thread.currentThread().getContextClassLoader()
       if (parentLoader == null)
       {
          log.warn("Falling back to parent loader.")
+         println "Falling back to parent loader."
          parentloader = ProcessManagerService.class.getClassLoader()
       }
       URLClassLoader loader = new URLClassLoader((URL[]) urlList.toArray(), parentLoader)
@@ -170,15 +175,17 @@ class ProcessingService
                            println "Processor name: $processorName"
                            // Add processor to map
                            processorMap[processorName] = theClass
-//                        println("Added processor with name ${processorName}")
+                        println("Added processor with name ${processorName}")
                               }
                            }
                   }
                   catch (Exception ex) {
                      log.error("Ignoring exception ", ex)
+                     println "ignoring exception"
                   }
                   catch (RuntimeException ex) {
                      log.error("Caught RuntimeException")
+                     println "caught runtime exception"
                   }
                }
             }

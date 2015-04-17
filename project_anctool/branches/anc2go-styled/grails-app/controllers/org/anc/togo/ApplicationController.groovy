@@ -56,6 +56,7 @@ class ApplicationController {
       def descriptors = processingService.getDescriptors()
 
       def selectedProcessor = "XML"
+      def processingService = "org.anc.tool.processor.xml-1.0.0-SNAPSHOT"
 
 //      log.info("# Descriptors: ${descriptors.size()}")
 
@@ -63,6 +64,7 @@ class ApplicationController {
         corpus:selectedCorpus,
         corpusName:selectedCorpusName,
         selectedProcessor:selectedProcessor,
+        processingService: processingService,
 		  corpora:corpora, 
 		  labels:labels, 
 		  processors:Processor.list(), 
@@ -143,14 +145,15 @@ class ApplicationController {
       String corpusName = params.corpusName
       //String corpusName = params.corpus
       String procName = params.selectedProcessor
+      String fullProcName = params.processingService
       
       println "---corpusName: " + corpusName
       println "--procName: " + procName
 
       key << corpusName
-      key << ":"
-      key << procName
-      key << ":"
+      //key << ":"
+      key << fullProcName
+      //key << ":"
       
       def types = []
       def options = [:]
@@ -229,9 +232,9 @@ class ApplicationController {
       }
       
       key << types.join(",")
-      key << ":"
+      //key << ":"
       key << directories.join(",")
-      key << ":"
+      //key << ":"
       key << options.values().join(",")
       
       println '///////\nKEY KEY KEY\n//////'
@@ -245,7 +248,7 @@ class ApplicationController {
          log.info("creating new job with string ${key.toString()}")
          job = new Job(key:key.toString(), path:'/path', ready:false)
          job.save()
-         def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString() ]
+         def map = [ corpus:corpusName, processor:fullProcName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString() ]
          processingService.start(map)
          new JobRequest(email:params.email1, job:job).save()
       }
