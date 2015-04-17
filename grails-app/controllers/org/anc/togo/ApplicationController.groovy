@@ -13,7 +13,7 @@ import org.anc.togo.db.Processor
 
 class ApplicationController {
 
-   def processingService
+   def processingService = new ProcessingService()
    
    def debug = {
 	
@@ -52,12 +52,14 @@ class ApplicationController {
       }
 
       println "corpusName: " + selectedCorpusName
-      
+	  
       def descriptors = processingService.getDescriptors()
-
+	  println "pros serv: " + processingService
+	  println "desript: " + descriptors
       def selectedProcessor = "XML"
-      def processingService = "org.anc.tool.processor.xml-1.0.0-SNAPSHOT"
-
+	  //def processingService = "org.anc.tool.processor.xml-1.0.0-SNAPSHOT"
+	  
+      
 //      log.info("# Descriptors: ${descriptors.size()}")
 
       [
@@ -248,8 +250,10 @@ class ApplicationController {
          log.info("creating new job with string ${key.toString()}")
          job = new Job(key:key.toString(), path:'/path', ready:false)
          job.save()
-         def map = [ corpus:corpusName, processor:fullProcName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString() ]
-         processingService.start(map)
+         def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString() ]
+         println "map!!!:::   " + map
+		 println "proc service!!!::  " + processingService
+		 processingService.start(map)
          new JobRequest(email:params.email1, job:job).save()
       }
       else

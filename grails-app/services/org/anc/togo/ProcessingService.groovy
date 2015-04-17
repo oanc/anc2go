@@ -22,7 +22,7 @@ class ProcessingService
    static transactional = true
    
    // Disable while debugging.
-   private static final boolean SEND_EMAIL = true
+   private static final boolean SEND_EMAIL = false
    
    def corporaMap = [:]
    def processorMap = [:]
@@ -41,7 +41,7 @@ class ProcessingService
    {
       // Load properties file
       log.info("Initializing the ProcessingService")
-      println ("initializing processing service")
+      println ("--------------------##########initializing processing service")
       log.info("Loading the corporaMap")
       loadCorporaMap()
       log.info(corporaMap)
@@ -61,19 +61,21 @@ class ProcessingService
 //      if (corporaMap) return
       
      log.info("Using corpora directory " + Globals.PATH.CORPORA_CONF);
+	 println "Using corpora directory " + Globals.PATH.CORPORA_CONF
      File corporaDir = new File(Globals.PATH.CORPORA_CONF);
 //     println "Using corpora directory " + Globals.PATH.CORPORA_CONF
      
      if (!corporaDir.exists())
      {
         log.error("Corpora configuration directory not found.")
+		println "Corpora configuration directory not found."
         return
      }
      
       corporaDir.eachFileMatch(~/.*\.properties/) { propFile ->
          loadCorpusProperties(propFile)
       }
-//     println "corporaMap: " + corporaMap
+     println "corporaMap: " + corporaMap
    }
    
    /**
@@ -116,6 +118,7 @@ class ProcessingService
       println "Loading processor map."
       File lib = new File(Globals.PATH.PROCESSORS)
       log.info("Processors directory is " + lib.getAbsolutePath())
+	  println "Processors directory is " + lib.getAbsolutePath()
       if (!lib.exists())
       {
          log.error("Unable to find the processors directory: " + lib.getPath())
@@ -191,7 +194,7 @@ class ProcessingService
             }
          }
       }
-      println processorMap
+      println "pmap: " + processorMap
    }
 
    /**
@@ -236,12 +239,13 @@ class ProcessingService
       // Get corpus info
       String corpusName = config.get("corpus")
       String headerRoot = corporaMap[corpusName + "-header"]
-	  println "${headerRoot}"
+	  println "headerroot:   ${headerRoot}"
       File headerFile = new File(headerRoot)
       if (!headerFile.exists())
       {
         String message = "Resource header not found: " + headerFile.getPath() 
         log.error(message) 
+		println message
         throw new ProcessorException(message)
       }
       log.info("Resource header is " + headerFile.getPath())
