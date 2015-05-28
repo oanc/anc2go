@@ -34,9 +34,7 @@ class ApplicationController {
       Corpus.list().sort() each {
          corpora.add(it)
          labels.add(it.toString())
-      } 
-
-      println "===**===number " + corpora.size()
+      }
 
       //selected corpus is taken from the URL
       //defaults to the first if there isn't anything
@@ -276,7 +274,8 @@ class ApplicationController {
          }
       }
       // Whether or not job currently exists, create a new job request
-      
+
+      render(view:"success")
       
       [jobs:Job.list(), requests:JobRequest.list()]
    }

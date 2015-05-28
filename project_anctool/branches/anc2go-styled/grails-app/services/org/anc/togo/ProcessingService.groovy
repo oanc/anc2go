@@ -61,7 +61,7 @@ class ProcessingService
 //      if (corporaMap) return
       
      log.info("Using corpora directory " + Globals.PATH.CORPORA_CONF);
-	 println "Using corpora directory " + Globals.PATH.CORPORA_CONF
+	 println "Using corpora directfory " + Globals.PATH.CORPORA_CONF
      File corporaDir = new File(Globals.PATH.CORPORA_CONF);
 //     println "Using corpora directory " + Globals.PATH.CORPORA_CONF
      
