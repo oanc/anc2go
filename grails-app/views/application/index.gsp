@@ -60,8 +60,12 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-	<g:form action="submit" method="post" params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]">
+	<g:form action="submit" method="post">
+		<%--  params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]" --%>
 	<span class="instruction">1. Select a corpus and its directories:</span>
+		<g:hiddenField id="corpusField" name="corpusName" value="${corpusName}"/>
+		<g:hiddenField id="procField" name="selectedProcessor" value="${selectedProcessor}"/>
+		<g:hiddenField id="serviceField" name="processingService" value="${processingService}"/>
 	<div class="tool-section">
 		<div id="side-links">
 			<h2>Corpora:</h2>
