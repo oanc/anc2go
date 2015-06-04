@@ -182,6 +182,9 @@ class ProcessingService
                               }
                            }
                   }
+                  catch (java.lang.NoClassDefFoundError ex) {
+                      log.error("Ignoring exception ", ex)
+                  }
                   catch (Exception ex) {
                      log.error("Ignoring exception ", ex)
                      println "ignoring exception"

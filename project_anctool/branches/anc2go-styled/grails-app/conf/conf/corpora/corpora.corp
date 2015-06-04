@@ -3,7 +3,7 @@ corpora {
 corpus {
 		name('MASC')
 		version('3.0.0')
-		root('/var/corpora/MASC-3.0.0-RC1')
+		root('/var/corpora/MASC-3.0.0')
 		directories {
 			directory {
 				name('Written')
@@ -90,8 +90,8 @@ corpus {
 	
 	corpus {
 		name('OANC')
-		version('3.0.1')
-		root('/var/corpora/MASC-3.0.1-RC1')
+		version('1.2')
+		root('/var/corpora/MASC-3.0.0')
 		directories {
 			directory {
 				name('Spoken')
