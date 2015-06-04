@@ -25,10 +25,7 @@ grails.project.dependency.resolution = {
       mavenRepo "http://www.anc.org/maven/snapshot"
       mavenRepo "http://www.anc.org:8080/nexus/content/repositories/snapshots"
       mavenRepo "http://www.anc.org:8080/nexus/content/repositories/releases"
-      //mavenRepo "http://snapshots.repository.codehaus.org"
-      //mavenRepo "http://repository.codehaus.org"
-      //mavenRepo "http://download.java.net/maven/2/"
-      //mavenRepo "http://repository.jboss.com/maven2/"
+      //mavenRepo "http://repo.spring.io/milestone"
    }
    def versions = [
 	   //logback:'0.9.18',
@@ -47,10 +44,10 @@ grails.project.dependency.resolution = {
       // runtime 'mysql:mysql-connector-java:5.1.13'
       runtime "hsqldb:hsqldb:1.8.0.10"
       compile "javax.mail:mail:1.4"
-      compile "org.anc:conf:${versions.conf}"
-      compile "org.anc:common:${versions.common}"
-      compile "org.anc.tool:tool-api:${versions.tool}"
-      compile "org.anc.tool:core:${versions.tool}"
+      runtime "org.anc:conf:${versions.conf}"
+      runtime "org.anc:common:${versions.common}"
+       runtime "org.anc.tool:tool-api:${versions.tool}"
+       runtime "org.anc.tool:core:${versions.tool}"
       compile "org.xces.graf.sag:sag-api:${versions.sag}"
       compile "org.xces.graf.sag:sag-impl:${versions.sag}"
       compile "org.tc37sc4.graf:graf-api:${versions.graf}"
@@ -69,12 +66,13 @@ grails.project.dependency.resolution = {
 
    plugins {
         // plugins for the build system only
-        build ':tomcat:7.0.42'
+        build ':tomcat:7.0.50'
         // plugins needed at runtime but not for compilation
-        runtime ':hibernate:3.6.10.2' 
+        runtime ':hibernate:3.6.10.7'
         compile "org.anc.grails.plugin:wordpress-template:0.1.2-SNAPSHOT"
         runtime ":jquery:1.11.0.1"
-    }
+//       compile ":spring-security-core:2.0-RC2"
+   }
 }
 
 grails.war.resources = { stagingDir ->

@@ -105,9 +105,9 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.anc.togo.auth.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.anc.togo.auth.UserRole'
-grails.plugins.springsecurity.authority.className = 'org.anc.togo.auth.Role'
+//grails.plugins.springsecurity.userLookup.userDomainClassName = 'org.anc.togo.auth.User'
+//grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'org.anc.togo.auth.UserRole'
+//grails.plugins.springsecurity.authority.className = 'org.anc.togo.auth.Role'
 
 // Uncomment and edit the following lines to start using Grails encoding & escaping improvements
 
