@@ -323,7 +323,7 @@ class ProcessingService
       config.get("directories").each { dirName ->
          // Need to get path from directory name. This requires matching
          // the directory to the correct corpus
-//         println "Directory: $dirName \t Corpus name: $corpusName"
+         println "Directory: $dirName \t Corpus name: $corpusName"
          def c = Directory.createCriteria()
          def results = c.list {
             like('did', dirName)

@@ -236,3 +236,261 @@ corpus {
 		}
 	}*/
 }
+
+/*
+directory {
+    name('data')
+    path('/var/corpora/OANC-1.2b1/data')
+    textClass('UNK')
+    directory {
+        name('spoken')
+        path('/var/corpora/OANC-1.2b1/data/spoken')
+        textClass('SP')
+        directory {
+            name('face-to-face')
+            path('/var/corpora/OANC-1.2b1/data/spoken/face-to-face')
+            textClass('FF')
+            directory {
+                name('charlotte')
+                path('/var/corpora/OANC-1.2b1/data/spoken/face-to-face/charlotte')
+                textClass('IN')
+            }
+        }
+        directory {
+            name('telephone')
+            path('/var/corpora/OANC-1.2b1/data/spoken/telephone')
+            textClass('TP')
+            directory {
+                name('switchboard')
+                path('/var/corpora/OANC-1.2b1/data/spoken/telephone/switchboard')
+                textClass('TP')
+            }
+        }
+    }
+    directory {
+        name('written_1')
+        path('/var/corpora/OANC-1.2b1/data/written_1')
+        textClass('WR')
+        directory {
+            name('fiction')
+            path('/var/corpora/OANC-1.2b1/data/written_1/fiction')
+            textClass('FC')
+        }
+        directory {
+            name('journal')
+            path('/var/corpora/OANC-1.2b1/data/written_1/journal')
+            textClass('JO')
+            directory {
+                name('slate')
+                path('/var/corpora/OANC-1.2b1/data/written_1/journal/slate')
+                textClass('JO')
+            }
+            directory {
+                name('verbatim')
+                path('/var/corpora/OANC-1.2b1/data/written_1/journal/verbatim')
+                textClass('JO')
+            }
+        }
+        directory {
+            name('letters')
+            path('/var/corpora/OANC-1.2b1/data/written_1/letters')
+            textClass('LT')
+            directory {
+                name('icic')
+                path('/var/corpora/OANC-1.2b1/data/written_1/letters/icic')
+                textClass('LT')
+            }
+        }
+    }
+    directory {
+        name('written_2')
+        path('/var/corpora/OANC-1.2b1/data/written_2')
+        textClass('WR')
+        directory {
+            name('non-fiction')
+            path('/var/corpora/OANC-1.2b1/data/written_2/non-fiction')
+            textClass('NF')
+            directory {
+                name('OUP')
+                path('/var/corpora/OANC-1.2b1/data/written_2/non-fiction/OUP')
+                textClass('BF')
+            }
+        }
+        directory {
+            name('technical')
+            path('/var/corpora/OANC-1.2b1/data/written_2/technical')
+            textClass('UNK')
+            directory {
+                name('911report')
+                path('/var/corpora/OANC-1.2b1/data/written_2/technical/911report')
+                textClass('GV')
+            }
+            directory {
+                name('biomed')
+                path('/var/corpora/OANC-1.2b1/data/written_2/technical/biomed')
+                textClass('TC')
+            }
+            directory {
+                name('government')
+                path('/var/corpora/OANC-1.2b1/data/written_2/technical/government')
+                textClass('TC')
+            }
+            directory {
+                name('plos')
+                path('/var/corpora/OANC-1.2b1/data/written_2/technical/plos')
+                textClass('JO')
+            }
+        }
+        directory {
+            name('travel_guides')
+            path('/var/corpora/OANC-1.2b1/data/written_2/travel_guides')
+            textClass('TG')
+        }
+    }
+}
+directory {
+	name('spoken')
+	path('/var/corpora/MASC-3.0.0/data/spoken')
+	textClass('SP')
+	directory {
+		name('court-transcript')
+		path('/var/corpora/MASC-3.0.0/data/spoken/court-transcript')
+		textClass('TR')
+	}
+	directory {
+		name('debate-transcript')
+		path('/var/corpora/MASC-3.0.0/data/spoken/debate-transcript')
+		textClass('TR')
+	}
+	directory {
+		name('face-to-face')
+		path('/var/corpora/MASC-3.0.0/data/spoken/face-to-face')
+		textClass('FF')
+	}
+	directory {
+		name('telephone')
+		path('/var/corpora/MASC-3.0.0/data/spoken/telephone')
+		textClass('TP')
+	}
+}
+directory {
+	name('written')
+	path('/var/corpora/MASC-3.0.0/data/written')
+	textClass('WR')
+	directory {
+		name('blog')
+		path('/var/corpora/MASC-3.0.0/data/written/blog')
+		textClass('BL')
+	}
+	directory {
+		name('email')
+		path('/var/corpora/MASC-3.0.0/data/written/email')
+		textClass('EM')
+		directory {
+			name('enron')
+			path('/var/corpora/MASC-3.0.0/data/written/email/enron')
+			textClass('EM')
+		}
+		directory {
+			name('spam')
+			path('/var/corpora/MASC-3.0.0/data/written/email/spam')
+			textClass('EM')
+		}
+		directory {
+			name('w3c')
+			path('/var/corpora/MASC-3.0.0/data/written/email/w3c')
+			textClass('EM')
+		}
+	}
+	directory {
+		name('essays')
+		path('/var/corpora/MASC-3.0.0/data/written/essays')
+		textClass('ES ')
+	}
+	directory {
+		name('ficlets')
+		path('/var/corpora/MASC-3.0.0/data/written/ficlets')
+		textClass('FT')
+	}
+	directory {
+		name('fiction')
+		path('/var/corpora/MASC-3.0.0/data/written/fiction')
+		textClass('FC')
+	}
+	directory {
+		name('govt-docs')
+		path('/var/corpora/MASC-3.0.0/data/written/govt-docs')
+		textClass('GV')
+	}
+	directory {
+		name('jokes')
+		path('/var/corpora/MASC-3.0.0/data/written/jokes')
+		textClass('JK')
+	}
+	directory {
+		name('journal')
+		path('/var/corpora/MASC-3.0.0/data/written/journal')
+		textClass('JO')
+	}
+	directory {
+		name('letters')
+		path('/var/corpora/MASC-3.0.0/data/written/letters')
+		textClass('LT')
+		directory {
+			name('philanthropic-fundraising')
+			path('/var/corpora/MASC-3.0.0/data/written/letters/philanthropic-fundraising')
+			textClass('LT')
+		}
+		directory {
+			name('solicitation-brochures')
+			path('/var/corpora/MASC-3.0.0/data/written/letters/solicitation-brochures')
+			textClass('LT')
+		}
+	}
+	directory {
+		name('movie-script')
+		path('/var/corpora/MASC-3.0.0/data/written/movie-script')
+		textClass('MS')
+	}
+	directory {
+		name('newspaper')
+		path('/var/corpora/MASC-3.0.0/data/written/newspaper')
+		textClass('NP')
+		directory {
+			name('nyt')
+			path('/var/corpora/MASC-3.0.0/data/written/newspaper/nyt')
+			textClass('NP')
+		}
+		directory {
+			name('unknown')
+			path('/var/corpora/MASC-3.0.0/data/written/newspaper/unknown')
+			textClass('NP')
+		}
+		directory {
+			name('wsj')
+			path('/var/corpora/MASC-3.0.0/data/written/newspaper/wsj')
+			textClass('NP')
+		}
+	}
+	directory {
+		name('non-fiction')
+		path('/var/corpora/MASC-3.0.0/data/written/non-fiction')
+		textClass('NF')
+	}
+	directory {
+		name('technical')
+		path('/var/corpora/MASC-3.0.0/data/written/technical')
+		textClass('TC')
+	}
+	directory {
+		name('travel-guides')
+		path('/var/corpora/MASC-3.0.0/data/written/travel-guides')
+		textClass('TG')
+	}
+	directory {
+		name('twitter')
+		path('/var/corpora/MASC-3.0.0/data/written/twitter')
+		textClass('TW')
+	}
+}
+*/
