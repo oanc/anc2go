@@ -150,7 +150,7 @@ class DB
        *  to do these well.
        */
       corpora.each { kCorpus ->
-//         println "corpus name: ${kCorpus.name}"
+         println "corpus name: ${kCorpus.name}"
          Corpus gCorpus = new Corpus(name:kCorpus.name, root:kCorpus.root, ver:kCorpus.version, cid:kCorpus.cid)
          
          gCorpus.save(flush:true)
