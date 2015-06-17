@@ -9,17 +9,18 @@
     </layout>
   </appender>
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>/var/log/anc2go/anc2go.log</file>
-		<append>false</append>
-		<encoder>
-			<pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
-		</encoder>
-	</appender>
-	
-  <logger name="org.anc" level="debug"/>
-  <logger name="org.codehaus.groovy" level="warn"/>
-  <root level="info">
-    <!-- <appender-ref ref="STDOUT" />  -->
+      <!-- <file>/var/log/anc2go/anc2go.log</file> -->
+      <file>/Users/Tim/Documents/ANC2Go/anc2go.log</file>
+      <append>false</append>
+      <encoder>
+          <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
+      </encoder>
+  </appender>
+
+<logger name="org.anc" level="debug"/>
+<logger name="org.codehaus.groovy" level="warn"/>
+<root level="info">
+  <!-- <appender-ref ref="STDOUT" />  -->
     <appender-ref ref="FILE"/>
   </root>
 </configuration>

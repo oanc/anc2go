@@ -25,6 +25,7 @@ grails.project.dependency.resolution = {
       mavenRepo "http://www.anc.org/maven/snapshot"
       mavenRepo "http://www.anc.org:8080/nexus/content/repositories/snapshots"
       mavenRepo "http://www.anc.org:8080/nexus/content/repositories/releases"
+      mavenRepo "https://repo.grails.org/grails/plugins"
       //mavenRepo "http://repo.spring.io/milestone"
    }
    def versions = [
@@ -68,7 +69,7 @@ grails.project.dependency.resolution = {
         // plugins for the build system only
         build ':tomcat:7.0.50'
         // plugins needed at runtime but not for compilation
-        runtime ':hibernate:3.6.10.7'
+        runtime ':hibernate:3.6.10.2'
         compile "org.anc.grails.plugin:wordpress-template:0.1.2-SNAPSHOT"
         runtime ":jquery:1.11.0.1"
 //       compile ":spring-security-core:2.0-RC2"
