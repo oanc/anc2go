@@ -1,6 +1,6 @@
 corpora {	
 
-corpus {
+    corpus {
 		name('MASC')
 		version('3.0.0')
 		root('/var/corpora/MASC-3.0.0')
