@@ -156,10 +156,6 @@ corpora {
         version('1.2')
         root('/var/corpora/OANC-1.2b1')
         directories {
-			directory {
-				name('All')
-				path('/var/corpora/OANC-1.2b1/data')
-				textClass('UNK')
 				directory {
 					name('spoken')
 					path('/var/corpora/OANC-1.2b1/data/spoken')
@@ -265,7 +261,6 @@ corpora {
 						textClass('TG')
 					}
 				}
-			}
         }
     }
 }
