@@ -18,12 +18,12 @@ class Directory implements Comparable<Directory> {
 		type blank:false
 		textClass blank:false
 		path blank:false // unique:true
-      did blank:false, unique:true
+      did blank:false // unique:true
     }
 
 
    //Override
-   public int compareTo(Object o)
+   public int compareTo(Directory o)
    {
       if (this.textClass.equals(((Directory) o).textClass))
       {

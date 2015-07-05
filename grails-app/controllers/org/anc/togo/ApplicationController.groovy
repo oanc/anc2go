@@ -50,6 +50,8 @@ class ApplicationController {
       }
 
       println "corpusName: " + selectedCorpusName
+      println "directories " + selectedCorpus.directories.asList()
+      //println "sub dir " + selectedCorpus.directories.first().directories.asList();
 	  
       def descriptors = processingService.getDescriptors()
 	  println "pros serv: " + processingService

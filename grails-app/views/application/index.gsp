@@ -95,7 +95,7 @@
 							checked="false"/>
 					<label for="DIR_${corpus.cid}_${dir.did}"> ${dir.textClass} - ${dir.name}</label>
 					</li>
-					</g:each>
+				</g:each>
 			</ul>
 			</div>
 			<div id="select-buttons">

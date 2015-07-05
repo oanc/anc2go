@@ -152,8 +152,8 @@ class DB
       corpora.each { kCorpus ->
          println "corpus name: ${kCorpus.name}"
          Corpus gCorpus = new Corpus(name:kCorpus.name, root:kCorpus.root, ver:kCorpus.version, cid:kCorpus.cid)
-         
-         gCorpus.save(flush:true)
+
+         //gCorpus.save(flush:true)
          
          // top level directions
          def corpDirectories = kCorpus.directories
@@ -167,13 +167,13 @@ class DB
 //            gDir.name = kDir.name
 //            gDir.type = kDir.textClass
 //            gDir.textClass = kDir.textClass
-//            gDir.path = kDir.path            
+//            gDir.path = kDir.path
             
             // Next level directories are genres
             def kGenreDirs = kDir.directories
 //            println kGenreDirs.size()
             kGenreDirs.each { kGenreDir ->
-//               println "\tgenre directory: ${kGenreDir.name}"
+               println "\tgenre directory: ${kGenreDir.name}"
                def genreDirList = []
                Directory gGenreDir = new org.anc.togo.db.Directory()
                gGenreDir.name = kGenreDir.name
@@ -181,20 +181,20 @@ class DB
                gGenreDir.textClass = kDir.name
                gGenreDir.path = kGenreDir.path
                gGenreDir.did = kGenreDir.did
-//               dirList << gGenreDir
+   //            dirList << gGenreDir
                
                // Don't really need this.
 //               // Next level in is sub-genres
 //               def kSubGenreDirs = kGenreDir.directories
 //               kSubGenreDirs.each { kSubGenreDir ->
-//                  println "\t\tsubgenre directory: ${kGenreDir.name}"
+//                  println "\t\tsubgenre directory: ${kSubGenreDir.name}"
 //                  Directory gSubGenreDir = new org.anc.togo.db.Directory()
-//                  gSubGenreDir.name = kGenreDir.name
-//                  gSubGenreDir.type = kGenreDir.textClass
-//                  gSubGenreDir.textClass = kGenreDir.textClass
-//                  gSubGenreDir.path = kGenreDir.path
-//                  genreDirList << gSubGenreDir
-//                  
+//                  gSubGenreDir.name = kSubGenreDir.name
+//                  gSubGenreDir.type = kSubGenreDir.textClass
+//                  gSubGenreDir.textClass = kSubGenreDir.textClass
+//                  gSubGenreDir.path = kSubGenreDir.path
+//                  //genreDirList << gSubGenreDir
+//
 //                  // Wrap up subgenre directory
 //                  gSubGenreDir.save()
 //                  gCorpus.addToDirectories(gSubGenreDir)
@@ -246,7 +246,13 @@ class DB
          
          
          // Wrap up corpus
-         gCorpus.save(flush:true)
+         if(!gCorpus.save(flush:true)) {
+            gCorpus.errors.each {
+               println it
+            }
+         } else {
+            println("successfully saved!!!!!!!!")
+         }
       }
 //      if (Corpus.count()) {
 //         return
