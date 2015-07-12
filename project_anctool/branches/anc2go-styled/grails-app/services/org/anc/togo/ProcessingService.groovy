@@ -9,6 +9,7 @@ import org.anc.conf.AnnotationConfig
 import org.anc.conf.AnnotationType
 import org.anc.io.ANCFileFilter
 import org.anc.io.SuffixFilter
+import org.anc.togo.db.Corpus
 import org.anc.togo.db.*
 import org.anc.togo.constants.*
 import org.anc.tool.api.IProcessor
@@ -56,25 +57,38 @@ class ProcessingService
     * 
     * Ex: [MASC:/var/corpora/MASC-3, MASC-header:/var/corpora/MASC-3/resource-header.xml]
     */
+   //change
    private void loadCorporaMap()
    {
+
+      Corpus.list().each {
+         String corpusName = it.name;
+         String corpusRoot = it.root;
+         String corpusHeader = corpusRoot + "/resource-header.xml"
+         corporaMap[corpusName] = corpusRoot
+         corporaMap[corpusName + "-header"] = corpusHeader
+      }
+
 //      if (corporaMap) return
       
-     log.info("Using corpora directory " + Globals.PATH.CORPORA_CONF);
-	 println "Using corpora directfory " + Globals.PATH.CORPORA_CONF
-     File corporaDir = new File(Globals.PATH.CORPORA_CONF);
+     //log.info("Using corpora directory " + Globals.PATH.CORPORA_CONF);
+	 //println "Using corpora directfory " + Globals.PATH.CORPORA_CONF
+     //File corporaDir = new File("/var/corpora/");
 //     println "Using corpora directory " + Globals.PATH.CORPORA_CONF
      
-     if (!corporaDir.exists())
+     /*if (!corporaDir.exists())
      {
         log.error("Corpora configuration directory not found.")
 		println "Corpora configuration directory not found."
         return
-     }
+     }*/
      
-      corporaDir.eachFileMatch(~/.*\.properties/) { propFile ->
+      /*corporaDir.eachFileMatch(~/.*\.properties/) { propFile ->
          loadCorpusProperties(propFile)
-      }
+      }*/
+
+      //loadCorpusProperties()
+
      println "corporaMap: " + corporaMap
    }
    
@@ -84,7 +98,8 @@ class ProcessingService
     * TODO Update this to load from custom corpus script
     * @param propFile
     */
-   private void loadCorpusProperties(File propFile)
+   //change
+   /*private void loadCorpusProperties(File propFile)
    {
 //      println "loading properties file " + propFile.path
 	  println "Loading prop file ${propFile.path}"
@@ -98,7 +113,7 @@ class ProcessingService
       println "corpusRoot: $corpusRoot"
       corporaMap[corpusName] = corpusRoot
       corporaMap[corpusName + "-header"] = corpusHeader
-   }
+   }*/
 
    /**
     * Populates the processorMap by iterating over the jars in the processor
@@ -337,7 +352,8 @@ class ProcessingService
          {
 //            println "Directory path: ${dirMatch.path}"
             String textClass = dirMatch.textClass.toLowerCase()
-            inputDirectories << new File(corpusRoot + '/data/' + textClass + '/' + dirMatch.path)
+            //inputDirectories << new File(corpusRoot + '/data/' + textClass + '/' + dirMatch.path)
+            inputDirectories << new File(dirMatch.path)
          }
          else
          {
@@ -362,7 +378,7 @@ class ProcessingService
       // Check before we begin processing
       inputDirectories.each {
          if (!it.isDirectory()) {
-            throw new ProcessorException("Input location is not a directory.")
+            throw new ProcessorException("Input location is not a directory. " + it.path)
          }
       }
       if (!outputDirectory.isDirectory() && !outputDirectory.mkdirs()) {
@@ -419,6 +435,8 @@ class Worker implements Runnable
          catch (Exception e)
          {
             log.error("Unable to process file" + file.getPath(), e)
+            println("unable to process file " + file.getPath())
+            println(e)
          }
       }
       // Recurse through subdirectories to catch subgenres
