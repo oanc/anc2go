@@ -216,6 +216,10 @@ class ApplicationController {
                      }
                   }
                }
+               else  if (param == "F_OANC_travel_guides_dir") {
+                  def dirName = "travel_guides"
+                  directories << dirName
+               }
 			   else if (param.endsWith('dir'))
 			   {
 //				   println "param ends with dir! ${param}"
