@@ -233,7 +233,7 @@
 	<span class="instruction">4. Enter your email addresss:</span>
 	<div class="tool-section">
 		<div id="email-field">
-			<input id="email-input" type="email" class="form-control" placeholder="Email">
+			<input name="email" id="email-input" type="email" class="form-control" placeholder="Email">
 		</div>
 		<div id="info-field">
 			You will receive a download link once your selection has been processed.

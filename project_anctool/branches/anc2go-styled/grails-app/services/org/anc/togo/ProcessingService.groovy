@@ -23,7 +23,7 @@ class ProcessingService
    static transactional = true
    
    // Disable while debugging.
-   private static final boolean SEND_EMAIL = false
+   public static final boolean SEND_EMAIL = true
    
    def corporaMap = [:]
    def processorMap = [:]
@@ -492,6 +492,7 @@ class Worker implements Runnable
       // List job as ready
       Job job
       Job.withTransaction() {
+         //println "config key" config.key
          job = Job.findByKey(config.key)
          if (job)
          {
@@ -505,6 +506,7 @@ class Worker implements Runnable
       // (i.e., job requests with matching key)
       def jobRequests = JobRequest.findAllByJob(job)
       log.info("number of job requests: {}", jobRequests.size())
+      println "num requests: " + jobRequests.size()
       
       if (jobRequests)
       {
@@ -516,12 +518,14 @@ class Worker implements Runnable
             if (ProcessingService.SEND_EMAIL)
             {
                ProcessingService.sendNotificationEmail(recipient, zipFile.getName())
-               //            EmailSender sender = new EmailSender()
-               //            String subject = "ANC2Go Download Ready"
-               //            String message = "Download ready for job.\nDownload link: http://anc.org/downloads/Verbatim-CAS.zip"
-               //            sender.postMail(recipient, subject, message)
-                           log.info("email sent successfully to address {}", recipient)
+//                           EmailSender sender = new EmailSender()
+//                           String subject = "ANC2Go Download Ready"
+//                           String message = "Download ready for job.\nDownload link: http://anc.org/downloads/Verbatim-CAS.zip"
+//                           sender.postMail(recipient, subject, message)
+//                           println "email sent to " + recipient
+//                           log.info("email sent successfully to address {}", recipient)
             } else {
+               println "debug, no email"
                log.info("Email not sent due to debugging option")
             }
             ((JobRequest) jobRequest).delete()

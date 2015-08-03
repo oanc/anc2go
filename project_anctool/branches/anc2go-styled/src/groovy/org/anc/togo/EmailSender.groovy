@@ -98,6 +98,8 @@ class EmailSender
       {
          // TODO: handle exception
          logger.error("Error sending email.", e)
+         println "email failed!"
+         println e
 //         e.printStackTrace()
       }
    }

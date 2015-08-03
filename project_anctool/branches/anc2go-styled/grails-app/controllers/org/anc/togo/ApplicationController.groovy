@@ -258,7 +258,7 @@ class ApplicationController {
          println "map!!!:::   " + map
 		 println "proc service!!!::  " + processingService
 		 processingService.start(map)
-         new JobRequest(email:params.email1, job:job).save()
+         new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
       }
       else
       {
