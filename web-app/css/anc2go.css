@@ -91,14 +91,27 @@
 	padding-bottom:10px;
 }
 
-#email-field, #info-field {
+#email-fields, #info-field {
 	width:50%;
 	float:left;
+	display:inline-block;
+}
+
+.email-field {
+	margin-bottom:10px;
+}
+
+#error-field {
+	color:red;
+	display:block;
+	font-weight:400pt;
+	margin-top:10px;
 }
 
 #info-field {
 	font-style:italic;
 	font-weight:400;
+	font-size:12pt;
 	color:#757575;
 	margin-top:2px;
 }

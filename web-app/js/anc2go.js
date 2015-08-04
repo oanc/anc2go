@@ -1,6 +1,6 @@
-var table = document.getElementById("corpDirTable");
-var checkboxes = table.getElementsByTagName('input');
-var selectedProc = document.getElementById("procField");
+var checkTable = document.getElementById('corpDirTable');
+var checkboxes = checkTable.getElementsByTagName('input');
+var selectedProc = document.getElementById('procField');
 
 $('#annotation-tabs a').click(function (e) {
     e.preventDefault();
@@ -14,4 +14,17 @@ function toggleAll(bool) {
             checkboxes[i].checked = !checkboxes[i].checked;
         }
 	}
+}
+
+function validateEmail() {
+    var email1 = document.getElementById('email-input').value;
+    var email2 = document.getElementById('email-confirm-input').value;
+    var match = email1.toLowerCase().trim() == email2.toLowerCase().trim();
+
+    if(!match) {
+        var errorField = document.getElementById('error-field');
+        errorField.innerHTML = "Please make sure the email addresses match.";
+    }
+
+    return match;
 }

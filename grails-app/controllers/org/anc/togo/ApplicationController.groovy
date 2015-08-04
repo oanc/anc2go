@@ -268,7 +268,7 @@ class ApplicationController {
          {
             // job's already completed; just send email
             log.info("job has already completed; just send email.")
-            String recipient = params.email1
+            String recipient = params.email
             String filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
             ProcessingService.sendNotificationEmail(recipient, filename)
             log.info("email sent successfully to address ${recipient}")
