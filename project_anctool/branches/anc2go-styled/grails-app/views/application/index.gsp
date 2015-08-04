@@ -60,7 +60,7 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-	<g:form action="submit" method="post">
+	<g:form action="submit" method="post" onsubmit="return validateEmail()">
 		<%--  params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]" --%>
 	<span class="instruction">1. Select a corpus and its directories:</span>
 		<g:hiddenField id="corpusField" name="corpusName" value="${corpusName}"/>
@@ -232,8 +232,14 @@
 	</div>
 	<span class="instruction">4. Enter your email addresss:</span>
 	<div class="tool-section">
-		<div id="email-field">
-			<input name="email" id="email-input" type="email" class="form-control" placeholder="Email">
+		<div id="email-fields">
+			<div class="email-field">
+				<input name="email" id="email-input" type="email" class="form-control" placeholder="Email" required>
+			</div>
+			<div class="email-field">
+				<input name="email-confirm" id="email-confirm-input" type="email" class="form-control" placeholder="Confirm email" required>
+			</div>
+			<span id="error-field"></span>
 		</div>
 		<div id="info-field">
 			You will receive a download link once your selection has been processed.
