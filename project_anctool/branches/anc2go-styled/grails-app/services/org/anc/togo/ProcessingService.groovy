@@ -376,7 +376,7 @@ class ProcessingService
       //
 
       // Check before we begin processing
-      inputDirectories.each {
+      inputDirectories.each { File it  ->
          if (!it.isDirectory()) {
             throw new ProcessorException("Input location is not a directory. " + it.path)
          }
