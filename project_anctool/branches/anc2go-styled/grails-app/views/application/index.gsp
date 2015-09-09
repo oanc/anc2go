@@ -60,6 +60,7 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
+		<p>This is a development version, and may be subject to some bugs</p>
 	<g:form action="submit" method="post" onsubmit="return validateEmail()">
 		<%--  params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]" --%>
 	<span class="instruction">1. Select a corpus and its directories:</span>
