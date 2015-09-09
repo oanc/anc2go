@@ -400,7 +400,7 @@ class ProcessingService
    {
       EmailSender sender = new EmailSender()
       String subject = "ANC2Go Download Ready"
-      String message = "Your ANC2Go-generated annotations are ready for download.\nYou can download the files using this link: http://anc.org/downloads/${filename}"
+      String message = "Your ANC2Go-generated annotations are ready for download.\nYou can download the files using this link: http://anc.org/downloads/ANC2Go/${filename}"
       return sender.postMail(recipient, subject, message)
    }
 }
