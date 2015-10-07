@@ -93,6 +93,7 @@ class EmailSender
       try
       {
          Transport.send(msg)
+         logger.info("Mail sent.");
       }
       catch (Exception e)
       {

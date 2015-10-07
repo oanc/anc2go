@@ -198,14 +198,14 @@ class ProcessingService
                            }
                   }
                   catch (java.lang.NoClassDefFoundError ex) {
-                      log.error("Ignoring exception ", ex)
+                      log.error("Ignoring exception: {}", ex.getMessage())
                   }
                   catch (Exception ex) {
-                     log.error("Ignoring exception ", ex)
+                     log.error("Ignoring exception: ", ex.getMessage())
                      println "ignoring exception"
                   }
                   catch (RuntimeException ex) {
-                     log.error("Caught RuntimeException")
+                     log.error("Caught RuntimeException", ex)
                      println "caught runtime exception"
                   }
                }
