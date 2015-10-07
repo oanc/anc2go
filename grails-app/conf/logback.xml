@@ -15,6 +15,7 @@
             <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
         </encoder>
     </appender>
+    <!--
 	<appender name="TIM" class="ch.qos.logback.core.FileAppender">
       <file>/Users/Tim/Documents/ANC2Go/anc2go.log</file>
       <append>false</append>
@@ -22,6 +23,7 @@
           <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
       </encoder>
   </appender>
+  -->
 <logger name="org.anc" level="debug"/>
 <logger name="org.codehaus.groovy" level="warn"/>
 <root level="info">
