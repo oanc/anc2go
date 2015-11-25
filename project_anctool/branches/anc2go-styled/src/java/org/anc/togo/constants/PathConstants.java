@@ -16,7 +16,7 @@ public class PathConstants extends Constants
 	@Default("/usr/share/anc2go/cache")
 	public final String CACHE = null;
 
-	@Default("/usr/share/anc2go/download")
+	@Default("/usr/share/anc2go/downloads")
 	public final String DOWNLOADS = null;
 	
 	@Default("/usr/share/anc2go/conf")

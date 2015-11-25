@@ -65,6 +65,7 @@ class EmailSender
     */
    public void postMail( String to, String subject, String message) throws MessagingException
    {
+       logger.info("Posting mail to {}", to)
       boolean debug = false
 
       //Set the host smtp address
@@ -92,6 +93,7 @@ class EmailSender
       msg.setContent(message, "text/plain")
       try
       {
+          logger.debug("Attempting to send mail.")
          Transport.send(msg)
          logger.info("Mail sent.");
       }
@@ -99,8 +101,8 @@ class EmailSender
       {
          // TODO: handle exception
          logger.error("Error sending email.", e)
-         println "email failed!"
-         println e
+//         println "email failed!"
+//         println e
 //         e.printStackTrace()
       }
    }
