@@ -60,7 +60,13 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go">
-		<p>This is a development version, and may be subject to some bugs</p>
+		<div class="panel panel-danger">
+			<p class="panel-heading">Warning</p>
+			<p class="panel-body">This is a development version, and may be subject to some bugs. In particular, the functionality
+			to send email is not working at the moment. For now you will be given a download link to
+			<em>poll</em> manually.  After a few minutes (5-10) the download link should stop returning 404
+			errors and resolve to your processed files.</p>
+		</div>
 	<g:form action="submit" method="post" onsubmit="return validateEmail()">
 		<%--  params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]" --%>
 	<span class="instruction">1. Select a corpus and its directories:</span>

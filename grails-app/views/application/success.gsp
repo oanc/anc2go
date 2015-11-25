@@ -66,8 +66,20 @@
         </ul>
     </div>
     <wp:wrapper>
+        <!--
         <wp:section title="Success">
             Your request was successfully submitted. You will receive an email shortly with a link to your download.
+        </wp:section>
+        -->
+        <wp:section title="Success">
+            <p>Your request was successfully submitted.</p>
+            <p>Unfortunately, sending email is currently disabled so you will not be notified when
+            your files are ready. Please allow at least five minutes for processing to complete and your files
+            should be available from
+            <a href="http://www.anc.org/downloads/ANC2Go/${filename}">http://www.anc.org/downloads/ANC2Go/${filename}</a>.
+            </p>
+            <p>If the above link is not working within one hour please send an email to <span class="label">anc [at] anc.org</span>.</p>
+            <p><button onclick="window.history.back()">Back</button></p>
         </wp:section>
     </wp:wrapper>
     </wp:frame>

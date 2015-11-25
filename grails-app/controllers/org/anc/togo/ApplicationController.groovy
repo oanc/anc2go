@@ -154,7 +154,7 @@ class ApplicationController {
 
       key << corpusName
       //key << ":"
-      key << fullProcName
+      key << procName
       //key << ":"
       
       def types = []
@@ -248,40 +248,47 @@ class ApplicationController {
       
       // Look up job by key. If null, it hasn't been started yet; instantiate and begin processing 
       def job = Job.findByKey(key.toString())
+      String filename = "Unknown"
       //TODO switch back
+      if (job) {
+         log.info("job is already currently processing or has already been finished during this session.")
+         if (job.ready) {
+//            filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
+            filename = Util.getZipFilename(job)
+            File testFile = new File("/home/www/anc/downloads/ANC2Go/$filename")
+            if (testFile.exists()) {
+               log.info("job has already completed; just send email.")
+               String recipient = params.email
+               ProcessingService.sendNotificationEmail(recipient, filename)
+               log.info("email sent successfully to address ${recipient}")
+            }
+            else {
+               log.warn("Job is ready but the file is missing.")
+               job.delete(flush: true)
+               job = null
+            }
+         }
+         else {
+            // job has not yet completed; create new job request, and ProcessingService will take care of email
+            new JobRequest(email:params.email1, job:job).save()
+         }
+      }
+      // This can't simply be an 'else' to the above 'if' statement as the value
+      // of job may have changed if the output file is missing.
       if(!job)
       {
          log.info("creating new job with string ${key.toString()}")
          job = new Job(key:key.toString(), path:'/path', ready:false)
          job.save()
-         def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString() ]
+         filename = Util.getZipFilename(job)
+         def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString(), filename: filename ]
          println "map!!!:::   " + map
 		 println "proc service!!!::  " + processingService
-		 processingService.start(map)
          new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
+		 processingService.start(map)
       }
-      else
-      {
-         log.info("job is already currently processing or has already been finished during this session.")
-         // job is already currently processing or has already been finished during this session.
-         if (job.ready)
-         {
-            // job's already completed; just send email
-            log.info("job has already completed; just send email.")
-            String recipient = params.email
-            String filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
-            ProcessingService.sendNotificationEmail(recipient, filename)
-            log.info("email sent successfully to address ${recipient}")
-         }
-         else
-         {
-            // job has not yet completed; create new job request, and ProcessingService will take care of email
-            new JobRequest(email:params.email1, job:job).save()
-         }
-      }
-      // Whether or not job currently exists, create a new job request
 
-      render(view:"success")
+      render(view:"success", model: [filename:filename])
       
       [jobs:Job.list(), requests:JobRequest.list()]
    }
