@@ -1,6 +1,6 @@
 package org.anc.togo.db
 
-class AnnotationType implements Comparable {
+class  AnnotationType implements Comparable {
 	String name
 	String description
 	boolean isToken

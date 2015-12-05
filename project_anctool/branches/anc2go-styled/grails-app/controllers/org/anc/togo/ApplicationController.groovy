@@ -1,17 +1,22 @@
 package org.anc.togo
 
+import ch.qos.logback.classic.Logger
 import grails.converters.*
 import org.anc.togo.api.IProcessorService
+import org.anc.togo.api.ProcessorException
 import org.anc.togo.constants.Globals;
 import org.anc.togo.db.Corpus;
 import org.anc.togo.db.Directory
 import org.anc.togo.db.Job
 import org.anc.togo.db.JobRequest
 import org.anc.togo.db.Processor
+import org.slf4j.LoggerFactory
 
 //import ch.qos.logback.core.joran.conditional.ElseAction;
 
 class ApplicationController {
+
+   private Logger log = LoggerFactory.getLogger(ApplicationController)
 
    def processingService = new ProcessingService()
    
@@ -25,7 +30,6 @@ class ApplicationController {
    }
    
    def index = {
-      println "Calling application.index"
       def corpora = []
       def labels = []
       def selectedCorpusName = params.corpusName
@@ -49,13 +53,13 @@ class ApplicationController {
          selectedCorpus = findCorpusByName(selectedCorpusName,corpora)
       }
 
-      println "corpusName: " + selectedCorpusName
-      println "directories " + selectedCorpus.directories.asList()
+//      println "corpusName: " + selectedCorpusName
+//      println "directories " + selectedCorpus.directories.asList()
       //println "sub dir " + selectedCorpus.directories.first().directories.asList();
 	  
       def descriptors = processingService.getDescriptors()
-	  println "pros serv: " + processingService
-	  println "desript: " + descriptors
+//	  println "pros serv: " + processingService
+//	  println "desript: " + descriptors
       def selectedProcessor = "XML"
 	  //def processingService = "org.anc.tool.processor.xml-1.0.0-SNAPSHOT"
 	  
@@ -67,11 +71,12 @@ class ApplicationController {
         corpusName:selectedCorpusName,
         selectedProcessor:selectedProcessor,
         processingService: processingService,
-		  corpora:corpora, 
-		  labels:labels, 
-		  processors:Processor.list(), 
-		  descriptors:descriptors,
-		  email:Globals.SMTP.DEFAULT_ADDRESS
+        corpora:corpora,
+        labels:labels,
+        processors:Processor.list(),
+        descriptors:descriptors,
+        email:Globals.SMTP.DEFAULT_ADDRESS,
+        version:grailsApplication.metadata['app.version']
 	  ] 
 	}
 
@@ -81,7 +86,8 @@ class ApplicationController {
             return c
          }
       }
-      println "ERROR"
+      //println "ERROR"
+      log.error("Unable to find a corpus named {}", name)
       return corpora[0]
    }
 
@@ -112,20 +118,20 @@ class ApplicationController {
       {
          return [error:'No corpus specified.'] as JSON
       }
-      println "Selected corpus is ${params.corpus}"
+//      println "Selected corpus is ${params.corpus}"
       
       String procName = params.processor ?: 'XML'     
 
       Corpus corpus = Corpus.findByName(params.corpus)
       if (!corpus)
       {
-         println "Corpus not found."
+//         println "Corpus not found."
          return [error: 'Corpus not found.'] as JSON
       }
       Processor processor = Processor.findByName(procName)
       if (!processor)
       {
-         println "Processor not found."
+//         println "Processor not found."
          return [error:'Processor not found.'] as JSON
       }
 //      def query = "select T.name from AnnotationType T, CorpusTypes C, ProcessorTypes P " +      
@@ -139,7 +145,6 @@ class ApplicationController {
    
 
    def submit = {
-      log.info("Submitting")
 	  //println "params: ${params}"
      //println "corpus: ${params.corpus}"
       StringBuilder key = new StringBuilder()
@@ -148,9 +153,10 @@ class ApplicationController {
       //String corpusName = params.corpus
       String procName = params.selectedProcessor
       String fullProcName = params.processingService
-      
-      println "---corpusName: " + corpusName
-      println "--procName: " + procName
+
+      log.info("Submitting job for ${corpusName} by ${procName}")
+//      println "---corpusName: " + corpusName
+//      println "--procName: " + procName
 
       key << corpusName
       //key << ":"
@@ -243,18 +249,24 @@ class ApplicationController {
       //key << ":"
       key << options.values().join(",")
       
-      println '///////\nKEY KEY KEY\n//////'
-      println key.toString()
-      
+//      println '///////\nKEY KEY KEY\n//////'
+//      println key.toString()
+
+      // Flag to be set when the worker thread is started.  If the worker does not start then
+      // the failure page is displayed to the user.
+      boolean started = true
+      String errorMessage = null
+
       // Look up job by key. If null, it hasn't been started yet; instantiate and begin processing 
       def job = Job.findByKey(key.toString())
       String filename = "Unknown"
-      //TODO switch back
       if (job) {
-         log.info("job is already currently processing or has already been finished during this session.")
+         filename = Util.getZipFilename(job)
+         log.info("Job for ${filename} is already currently processing or has already been finished during this session.")
          if (job.ready) {
 //            filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
-            filename = Util.getZipFilename(job)
+
+            // TODO The download directory needs to be parameterized into a configuration file somewhere.
             File testFile = new File("/home/www/anc/downloads/ANC2Go/$filename")
             if (testFile.exists()) {
                log.info("job has already completed; just send email.")
@@ -270,7 +282,8 @@ class ApplicationController {
          }
          else {
             // job has not yet completed; create new job request, and ProcessingService will take care of email
-            new JobRequest(email:params.email1, job:job).save()
+            log.info("Creating a job request to email ${params.email1} when ${filename} is ready")
+            new JobRequest(email:params.email1, job:job, ready:false).save()
          }
       }
       // This can't simply be an 'else' to the above 'if' statement as the value
@@ -282,13 +295,31 @@ class ApplicationController {
          job.save()
          filename = Util.getZipFilename(job)
          def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString(), filename: filename ]
-         println "map!!!:::   " + map
-		 println "proc service!!!::  " + processingService
+         //println "map!!!:::   " + map
+		 //println "proc service!!!::  " + processingService
+         log.info("Starting job for ${params.email1} to generate ${filename}")
          new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
-		 processingService.start(map)
+		 try {
+            processingService.start(map)
+         }
+         catch (ProcessorException e) {
+            errorMessage = e.getMessage()
+            started = false
+         }
+         catch (Exception e) {
+            errorMessage = e.getMessage()
+            started = false
+         }
       }
 
-      render(view:"success", model: [filename:filename])
+      if (started) {
+         render(view: "success", model: [filename: filename])
+      }
+      else {
+         log.error("There was a problem starting the job.")
+         log.error("Message: {}", errorMessage)
+         render(view:"failure", model: [ error: errorMessage ])
+      }
       
       [jobs:Job.list(), requests:JobRequest.list()]
    }
