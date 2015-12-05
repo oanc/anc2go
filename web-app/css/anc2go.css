@@ -172,3 +172,18 @@ fieldset[disabled] .form-control {
 body {
 	font-weight:300;
 }
+
+.error-message {
+	color: #FF3333;
+	display: none;
+}
+#error-panel {
+	background-color: #c0c0c0;
+	border-radius: 5px;
+	box-shadow: 10px 10px 5px #707070;
+	width: 90%;
+	height: 100%;
+	margin: 15px 10px;
+	padding: 5px;
+	display: none;
+}

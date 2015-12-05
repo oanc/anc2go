@@ -66,7 +66,7 @@ class EmailSender
    public void postMail( String to, String subject, String message) throws MessagingException
    {
        logger.info("Posting mail to {}", to)
-      boolean debug = false
+      boolean debug = true
 
       //Set the host smtp address
       Properties props = new Properties()

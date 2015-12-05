@@ -22,7 +22,9 @@ class ProcessingService {
     static transactional = true
 
     // Disable while debugging.
-    public static final boolean SEND_EMAIL = true
+    public static final boolean SEND_EMAIL = false
+
+    private static final Logger log = LoggerFactory.getLogger(ProcessingService)
 
     def corporaMap = [:]
     def processorMap = [:]
@@ -40,10 +42,8 @@ class ProcessingService {
     public ProcessingService() {
         // Load properties file
         log.info("Initializing the ProcessingService")
-        println("--------------------##########initializing processing service")
-        //log.info("Loading the corporaMap")
         loadCorporaMap()
-        log.info(corporaMap)
+//        log.info(corporaMap)
 
         log.info("Loading the processor map.")
         loadProcessorMap()
@@ -126,20 +126,16 @@ class ProcessingService {
 
         // Iterate over jars to get processor classes:
         log.info("Loading processor map.")
-        println "Loading processor map."
         File lib = new File(Globals.PATH.PROCESSORS)
         log.info("Processors directory is " + lib.getAbsolutePath())
-        println "Processors directory is " + lib.getAbsolutePath()
         if (!lib.exists()) {
             log.error("Unable to find the processors directory: " + lib.getPath())
-            println "Unable to find the processors directory: " + lib.getPath()
             return
         }
 
         def jarList = lib.listFiles(new SuffixFilter(".jar"))
         if (jarList == null || jarList.size() == 0) {
             log.error("No processors found in " + lib.getPath())
-            println "No processors found in " + lib.getPath()
             return
         }
 
@@ -147,21 +143,20 @@ class ProcessingService {
         for (File f : jarList) {
             urlList << f.toURI().toURL()
         }
-        log.debug("There are " + jarList.size() + " processor jars.")
-        println "There are " + jarList.size() + " processor jars."
+        log.info("There are " + jarList.size() + " processor jars.")
         // Get class loader
         ClassLoader parentLoader = Thread.currentThread().getContextClassLoader()
         if (parentLoader == null) {
             log.warn("Falling back to parent loader.")
-            println "Falling back to parent loader."
-            parentloader = ProcessManagerService.class.getClassLoader()
+            parentLoader = ProcessingService.class.getClassLoader()
         }
         URLClassLoader loader = new URLClassLoader((URL[]) urlList.toArray(), parentLoader)
 
         // Iterate over jars in lib, looking for classes implementing IProcessor
         for (File jar : jarList) {
+            log.info("Scanning jar file {}", jar.path)
+
             JarFile jarFile = new JarFile(jar)
-//         println "checking out jar in location ${jar.absolutePath}"
             Enumeration<JarEntry> e = jarFile.entries()
             while (e.hasMoreElements()) {
                 JarEntry entry = e.nextElement()
@@ -172,27 +167,28 @@ class ProcessingService {
                     // Hack to prevent the class loader from loading weird files that would throw errors
                     // TODO find a workaround for this
                     if (name.endsWith("Processor")) {
+                        log.debug("Found Processor class: {}", name)
                         try {
                             Class<?> theClass = loader.loadClass(name, true)
+                            log.debug('Class loaded.')
                             for (Class<?> iface : theClass.getInterfaces()) {
-//                     println "iface: ${iface}"
+                                log.trace('Checking interface {}', iface.name)
                                 if (iface == IProcessor) {
-                                    println "processor class: $name"
                                     // Use processor database to look up processor name by class name
                                     // Note: substring(6) eliminates the "class " part of the string
                                     String processorName = Processor.findByClassName(theClass.toString().substring(6)).name
-                                    println "Processor name: $processorName"
+//                                    println "Processor name: $processorName"
                                     // Add processor to map
                                     processorMap[processorName] = theClass
-                                    println("Added processor with name ${processorName}")
+                                    log.info("Mapped ${processorName} to ${theClass.name}")
                                 }
                             }
                         }
                         catch (java.lang.NoClassDefFoundError ex) {
-                            log.error("Ignoring exception: " + ex.getMessage());
+                            log.error("Ignoring (not unexpected) NoClassDefFoundError: " + ex.getMessage());
                         }
                         catch (Exception ex) {
-                            log.error("Ignoring exception: " + ex.getMessage());
+                            log.error("Ignoring unexpected Exception: " + ex.getMessage());
                         }
                         catch (RuntimeException ex) {
                             log.error("Caught RuntimeException", ex)
@@ -201,7 +197,8 @@ class ProcessingService {
                 }
             }
         }
-        println "pmap: " + processorMap
+        log.info('Loaded {} processors', processorMap.size())
+//        println "pmap: " + processorMap
     }
 
     /**
@@ -239,8 +236,11 @@ class ProcessingService {
         // Get processor from map, and instantiate new instance
         String processorName = config.get("processor")
         log.debug("Processor name is " + processorName)
-        println "Proc name is : " + processorName
+        //println "Proc name is : " + processorName
         Class<IProcessor> processorClass = processorMap[processorName]
+        if (!processorClass) {
+            throw new ProcessorException("No processor found for ${processorName}")
+        }
         IProcessor processor = (IProcessor) processorClass.newInstance()
         // Get corpus info
         String corpusName = config.get("corpus")
@@ -342,9 +342,9 @@ class ProcessingService {
                 throw new ProcessorException("Directory not found in database")
             }
         }
-        for (File dir : inputDirectories) {
+//        for (File dir : inputDirectories) {
 //         println "input directory: " + dir.getAbsolutePath()
-        }
+//        }
 
         // Old code
 //      def inputDirectories = []
@@ -409,7 +409,6 @@ class Worker implements Runnable {
             }
             catch (Exception e) {
                 log.error("Unable to process file" + file.getPath(), e)
-                println("unable to process file " + file.getPath())
                 println(e)
             }
         }
@@ -487,7 +486,6 @@ class Worker implements Runnable {
 //                           println "email sent to " + recipient
                            log.info("email sent successfully to address {}", recipient)
                 } else {
-                    println "debug, no email"
                     log.info("Email not sent due to debugging option")
                 }
                 ((JobRequest) jobRequest).delete()

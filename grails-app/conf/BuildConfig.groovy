@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
 	   graf:'1.2.0',
 	   sag:'1.2.0-SNAPSHOT',
 	   common:'3.1.1',
-	   conf:'2.0.0' 
+	   conf:'2.1.1'
 	   ]
    
    dependencies {
