@@ -22,7 +22,7 @@ class ProcessingService {
     static transactional = true
 
     // Disable while debugging.
-    public static final boolean SEND_EMAIL = false
+    public static final boolean SEND_EMAIL = true
 
     private static final Logger log = LoggerFactory.getLogger(ProcessingService)
 

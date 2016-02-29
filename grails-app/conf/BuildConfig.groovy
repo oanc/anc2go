@@ -48,7 +48,7 @@ grails.project.dependency.resolution = {
       runtime "org.anc:conf:${versions.conf}"
       runtime "org.anc:common:${versions.common}"
        runtime "org.anc.tool:tool-api:${versions.tool}"
-       runtime "org.anc.tool:core:${versions.tool}"
+       runtime "org.anc.tool:core:1.0.0"
       compile "org.xces.graf.sag:sag-api:${versions.sag}"
       compile "org.xces.graf.sag:sag-impl:${versions.sag}"
       compile "org.tc37sc4.graf:graf-api:${versions.graf}"
