@@ -295,19 +295,23 @@ class ApplicationController {
          job.save()
          filename = Util.getZipFilename(job)
          def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString(), filename: filename ]
-         //println "map!!!:::   " + map
-		 //println "proc service!!!::  " + processingService
-         log.info("Starting job for ${params.email1} to generate ${filename}")
+         println "map!!!:::   " + map
+		 println "proc service!!!::  " + processingService
+         log.info("Starting job for ${params.email} to generate ${filename}")
          new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
 		 try {
             processingService.start(map)
          }
          catch (ProcessorException e) {
             errorMessage = e.getMessage()
+            println "processor exception!!"
             started = false
          }
          catch (Exception e) {
             errorMessage = e.getMessage()
+            println "exception!!"
+            println errorMessage
+            e.printStackTrace()
             started = false
          }
       }
@@ -317,7 +321,7 @@ class ApplicationController {
       }
       else {
          log.error("There was a problem starting the job.")
-         log.error("Message: {}", errorMessage)
+         log.error("Message: {$errorMessage}", errorMessage)
          render(view:"failure", model: [ error: errorMessage ])
       }
       
