@@ -60,7 +60,7 @@
 	<%-- page code --%>
 	<wp:wrapper>
 	<wp:section title="ANC2Go v${version}">
-		<div class="panel panel-danger">
+		<!--<div class="panel panel-danger">
 			<div class="panel-heading">Warning</div>
 			<div class="panel-body">
 				<p>This is a development version, and may be subject to some bugs. In particular, the functionality
@@ -68,15 +68,15 @@
 				<em>poll</em> manually.  After a few minutes (5-10) the download link should stop returning 404
 				errors and resolve to your processed files.</p>
 			</div>
-			<!--
+
 			<div class="panel-heading">Notice</div>
 			<div class="panel-body">
 				<p>This application is undergoing maintenance and should not be used. You
 				are free to look around, but things may not work and the application may disappear from time to time.
 				</p>
 			</div>
-			-->
-		</div>
+
+		</div>-->
 	<g:form action="submit" method="post" onsubmit="return validateEmail()">
 		<%--  params="[corpusName : corpusName, selectedProcessor : selectedProcessor, processingService : processingService]" --%>
 	<span class="instruction">1. Select a corpus and its directories:</span>
