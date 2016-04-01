@@ -249,13 +249,10 @@ class ApplicationController {
       //key << ":"
       key << options.values().join(",")
       
-//      println '///////\nKEY KEY KEY\n//////'
-//      println key.toString()
-
       // Flag to be set when the worker thread is started.  If the worker does not start then
       // the failure page is displayed to the user.
-      boolean started = true
-      String errorMessage = null
+      boolean started = false
+      String errorMessage = "Uknown error"
 
       // Look up job by key. If null, it hasn't been started yet; instantiate and begin processing 
       def job = Job.findByKey(key.toString())
@@ -266,7 +263,7 @@ class ApplicationController {
          if (job.ready) {
 //            filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
 
-            // TODO The download directory needs to be parameterized into a configuration file somewhere.
+            // TODO The download directory needs to be parameterized into the configuration file.
             File testFile = new File("/home/www/anc/downloads/ANC2Go/$filename")
             if (testFile.exists()) {
                log.info("job has already completed; just send email.")
@@ -295,23 +292,22 @@ class ApplicationController {
          job.save()
          filename = Util.getZipFilename(job)
          def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString(), filename: filename ]
-         println "map!!!:::   " + map
-		 println "proc service!!!::  " + processingService
+         //println "map!!!:::   " + map
+		 //println "proc service!!!::  " + processingService
+         //TODO Log the above at 'debug' or 'trace' level.
          log.info("Starting job for ${params.email} to generate ${filename}")
          new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
 		 try {
             processingService.start(map)
          }
          catch (ProcessorException e) {
-            errorMessage = e.getMessage()
-            println "processor exception!!"
+            errorMessage = e.message
+            log.error("The processingService failed.", e)
             started = false
          }
          catch (Exception e) {
-            errorMessage = e.getMessage()
-            println "exception!!"
-            println errorMessage
-            e.printStackTrace()
+            errorMessage = e.message
+            log.error("Unknown exception.", e)
             started = false
          }
       }
@@ -320,8 +316,6 @@ class ApplicationController {
          render(view: "success", model: [filename: filename])
       }
       else {
-         log.error("There was a problem starting the job.")
-         log.error("Message: {$errorMessage}", errorMessage)
          render(view:"failure", model: [ error: errorMessage ])
       }
       

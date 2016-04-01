@@ -4,8 +4,8 @@ import java.io.*;
 
 public class Globals
 {
-  public static final TimConstants PATH = new TimConstants();
-   //public static final PathConstants PATH = new PathConstants();
+//  public static final TimConstants PATH = new TimConstants();
+   public static final PathConstants PATH = new PathConstants();
    public static final MailConstants SMTP = new MailConstants();
    
    /**
