@@ -1,31 +1,32 @@
 <configuration debug="true" scan="true" scanPeriod="30 seconds">
-    <property name="LOG_DIR" value="/var/log/anc2go"/>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout>
-            <pattern>%date [%thread] %-5level %logger:%method:%line - %msg%n</pattern>
-        </layout>
 
-    </appender>
-    <!--
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-         <file>/var/log/anc2go/anc2go.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
-        </encoder>
-    </appender>
-    -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <layout>
+			<pattern>%date [%thread] %-5level %logger:%method:%line - %msg%n</pattern>
+    <!--  
+      <pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+      -->
+    </layout>
 
-    <appender name="TIM" class="ch.qos.logback.core.FileAppender">
-        <file>/Users/timbrown/Documents/ANC2Go/anc2go.log</file>
-        <append>false</append>
-        <encoder>
-            <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
-        </encoder>
-    </appender>
+ </appender>
+    <!-- <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+     <file>/var/log/anc2go/anc2go.log</file>
+     <append>true</append>
+     <encoder>
+         <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
+     </encoder>
+ </appender>  -->
+
+	<appender name="TIM" class="ch.qos.logback.core.FileAppender">
+      <file>/Users/timbrown/Documents/ANC2Go/anc2go.log</file>
+      <append>false</append>
+      <encoder>
+          <pattern>%date %-5level %logger:%method:%line - %msg%n</pattern>
+      </encoder>
+  </appender>
 
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/anc2go.log</file>
+        <file>/Users/timbrown/Documents/ANC2Go/anc2go.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover. Make sure the path matches the one in the file element or else
              the rollover logs are placed in the working directory. -->

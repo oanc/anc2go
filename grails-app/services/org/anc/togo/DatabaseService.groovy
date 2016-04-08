@@ -34,14 +34,11 @@ class DatabaseService {
     
     List getAnnotations(String corpus, String processor)
     {
-//       println "getAnnotations! corpus: $corpus, processor: $processor"
        def tokens = AnnotationType.findAllByIsToken(false)
-//       println "tokens: $tokens"
        def ctypes = Corpus.findByName(corpus).types
        ctypes = tokens.intersect(ctypes)
        
        def ptypes = Processor.findByName(processor).types
-//       println "ptypes: $ptypes"
        ctypes = ctypes.intersect(ptypes).toList()
        Collections.sort(ctypes)
        return ctypes
