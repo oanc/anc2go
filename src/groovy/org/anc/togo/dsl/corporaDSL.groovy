@@ -144,11 +144,7 @@ void run(String name, String text)
 		{
 			println "Directories"
 			corpus.directories.each { dir ->
-				//println "Class: ${dir.class.name}"
 				dir.print()
-				//println "   Name : ${dir?.name}"
-				//println "   Path : ${dir?.path}"
-				//println "   Class: ${dir?.textClass}"
 				println ""
 			}
 		}
@@ -177,10 +173,6 @@ public static List getCorporaListForScript(String scriptText)
    return corpora
 }
 
-//run('test1', test1)
-//run('test2', test2)
-//run('test3', test3)
-//run('test script', scriptText)
 def corpora = getCorporaListForScript(scriptText)
 corpora.each { corpus ->
    println "name: ${corpus.name}" 

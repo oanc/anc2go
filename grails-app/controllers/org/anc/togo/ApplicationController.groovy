@@ -12,8 +12,6 @@ import org.anc.togo.db.JobRequest
 import org.anc.togo.db.Processor
 import org.slf4j.LoggerFactory
 
-//import ch.qos.logback.core.joran.conditional.ElseAction;
-
 class ApplicationController {
 
    private Logger log = LoggerFactory.getLogger(ApplicationController)
@@ -52,19 +50,9 @@ class ApplicationController {
          selectedCorpusName = selectedCorpusName.toUpperCase()
          selectedCorpus = findCorpusByName(selectedCorpusName,corpora)
       }
-
-//      println "corpusName: " + selectedCorpusName
-//      println "directories " + selectedCorpus.directories.asList()
-      //println "sub dir " + selectedCorpus.directories.first().directories.asList();
 	  
       def descriptors = processingService.getDescriptors()
-//	  println "pros serv: " + processingService
-//	  println "desript: " + descriptors
       def selectedProcessor = "XML"
-	  //def processingService = "org.anc.tool.processor.xml-1.0.0-SNAPSHOT"
-	  
-      
-//      log.info("# Descriptors: ${descriptors.size()}")
 
       [
         corpus:selectedCorpus,
@@ -86,7 +74,6 @@ class ApplicationController {
             return c
          }
       }
-      //println "ERROR"
       log.error("Unable to find a corpus named {}", name)
       return corpora[0]
    }
@@ -102,8 +89,7 @@ class ApplicationController {
          corpora.add(it)
          labels.add(it.toString())
       }      
-      
-//      log.info("# Descriptors: ${descriptors.size()}")
+
       [
         corpora:corpora, 
         labels:labels, 
@@ -118,57 +104,39 @@ class ApplicationController {
       {
          return [error:'No corpus specified.'] as JSON
       }
-//      println "Selected corpus is ${params.corpus}"
       
       String procName = params.processor ?: 'XML'     
 
       Corpus corpus = Corpus.findByName(params.corpus)
       if (!corpus)
       {
-//         println "Corpus not found."
          return [error: 'Corpus not found.'] as JSON
       }
       Processor processor = Processor.findByName(procName)
       if (!processor)
       {
-//         println "Processor not found."
          return [error:'Processor not found.'] as JSON
       }
-//      def query = "select T.name from AnnotationType T, CorpusTypes C, ProcessorTypes P " +      
-//      " where C.type.id = P.type.id and T.id = P.type.id and C.corpus.name = ? and P.processor.name = ?"
-//      def types = AnnotationType.executeQuery(query, [params.corpus, processor])
-//      println("Returned a " + types.getClass().getName() + " size: " + types.size())
-//      types.each { println it }
-      //[corpus:params.corpus, processor:procName, result:corpus.types.intersect(processor.types)]
+
       render corpus.types.intersect(processor.types) as JSON
    }
    
 
    def submit = {
-	  //println "params: ${params}"
-     //println "corpus: ${params.corpus}"
       StringBuilder key = new StringBuilder()
 
       String corpusName = params.corpusName
-      //String corpusName = params.corpus
       String procName = params.selectedProcessor
-      String fullProcName = params.processingService
 
       log.info("Submitting job for ${corpusName} by ${procName}")
-//      println "---corpusName: " + corpusName
-//      println "--procName: " + procName
 
       key << corpusName
-      //key << ":"
       key << procName
-      //key << ":"
       
       def types = []
       def options = [:]
       def directories = []
-      
-      int count = 0
-      println "params: $params"
+
       params.each { param,value ->
          if (param.startsWith("F_"))
          {
@@ -193,14 +161,6 @@ class ApplicationController {
                            types << "f."+value
                         }
                      }
-//                     else
-//                     {
-//                        // special handling for ptb syntax
-//                        if (value == "f.ptb_syntax")
-//                        {
-//                           println "found ptb_syntax"
-//                        }
-//                     }
                   }
                   else if (type == "option")
                   {
@@ -228,31 +188,22 @@ class ApplicationController {
                }
 			   else if (param.endsWith('dir'))
 			   {
-//				   println "param ends with dir! ${param}"
 				   def dirName = param.tokenize('_')[2]
-//				   println "dirName: ${dirName}"
 				   directories << dirName
 			   }
-//               else if (proc == "DIR")
-//               {
-//                  log.debug("Adding directory " + type)
-//                  directories << type
-//               }
             }
          }
          
       }
       
       key << types.join(",")
-      //key << ":"
       key << directories.join(",")
-      //key << ":"
       key << options.values().join(",")
-      
+
       // Flag to be set when the worker thread is started.  If the worker does not start then
       // the failure page is displayed to the user.
-      boolean started = false
-      String errorMessage = "Uknown error"
+      boolean started = true
+      String errorMessage = null
 
       // Look up job by key. If null, it hasn't been started yet; instantiate and begin processing 
       def job = Job.findByKey(key.toString())
@@ -261,9 +212,8 @@ class ApplicationController {
          filename = Util.getZipFilename(job)
          log.info("Job for ${filename} is already currently processing or has already been finished during this session.")
          if (job.ready) {
-//            filename = job.key.replace(':', '-').substring(0, job.key.length() - 1) + ".zip"
 
-            // TODO The download directory needs to be parameterized into the configuration file.
+            // TODO The download directory needs to be parameterized into a configuration file somewhere.
             File testFile = new File("/home/www/anc/downloads/ANC2Go/$filename")
             if (testFile.exists()) {
                log.info("job has already completed; just send email.")
@@ -292,22 +242,18 @@ class ApplicationController {
          job.save()
          filename = Util.getZipFilename(job)
          def map = [ corpus:corpusName, processor:procName, types:types, options:options, directories:directories, email:params.email1, params:params, key:key.toString(), filename: filename ]
-         //println "map!!!:::   " + map
-		 //println "proc service!!!::  " + processingService
-         //TODO Log the above at 'debug' or 'trace' level.
          log.info("Starting job for ${params.email} to generate ${filename}")
          new JobRequest(email:params.email, job:job).save(flush: true, failOnError: true)
 		 try {
             processingService.start(map)
          }
          catch (ProcessorException e) {
-            errorMessage = e.message
-            log.error("The processingService failed.", e)
+            errorMessage = e.getMessage()
             started = false
          }
          catch (Exception e) {
-            errorMessage = e.message
-            log.error("Unknown exception.", e)
+            errorMessage = e.getMessage()
+            e.printStackTrace()
             started = false
          }
       }
@@ -316,6 +262,8 @@ class ApplicationController {
          render(view: "success", model: [filename: filename])
       }
       else {
+         log.error("There was a problem starting the job.")
+         log.error("Message: {$errorMessage}", errorMessage)
          render(view:"failure", model: [ error: errorMessage ])
       }
       

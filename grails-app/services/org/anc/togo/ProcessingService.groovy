@@ -66,51 +66,10 @@ class ProcessingService {
             corporaMap[corpusName + "-header"] = corpusHeader
         }
 
-//      if (corporaMap) return
-
-        //log.info("Using corpora directory " + Globals.PATH.CORPORA_CONF);
-        //println "Using corpora directfory " + Globals.PATH.CORPORA_CONF
-        //File corporaDir = new File("/var/corpora/");
-//     println "Using corpora directory " + Globals.PATH.CORPORA_CONF
-
-        /*if (!corporaDir.exists())
-        {
-           log.error("Corpora configuration directory not found.")
-           println "Corpora configuration directory not found."
-           return
-        }*/
-
-        /*corporaDir.eachFileMatch(~/.*\.properties/) { propFile ->
-           loadCorpusProperties(propFile)
-        }*/
-
-        //loadCorpusProperties()
 
         println "corporaMap: " + corporaMap
     }
 
-    /**
-     * Helper method to load a properties file corresponding to a corporaMap.
-     *
-     * TODO Update this to load from custom corpus script
-     * @param propFile
-     */
-    //change
-    /*private void loadCorpusProperties(File propFile)
-    {
- //      println "loading properties file " + propFile.path
-       println "Loading prop file ${propFile.path}"
-       log.debug("Loading properties file ${propFile.path}")
-       Properties corpusProp = new Properties()
-       corpusProp.load(new FileInputStream(propFile))
-       String corpusName = corpusProp.getProperty("name")
-       String corpusRoot = corpusProp.getProperty("root")
-       String corpusHeader = corpusProp.getProperty("header")
-       println "corpusRoot: $corpusName"
-       println "corpusRoot: $corpusRoot"
-       corporaMap[corpusName] = corpusRoot
-       corporaMap[corpusName + "-header"] = corpusHeader
-    }*/
 
     /**
      * Populates the processorMap by iterating over the jars in the processor
@@ -122,7 +81,6 @@ class ProcessingService {
      * @return
      */
     private void loadProcessorMap() {
-        //if (processorMap) return
 
         // Iterate over jars to get processor classes:
         log.info("Loading processor map.")
@@ -177,7 +135,6 @@ class ProcessingService {
                                     // Use processor database to look up processor name by class name
                                     // Note: substring(6) eliminates the "class " part of the string
                                     String processorName = Processor.findByClassName(theClass.toString().substring(6)).name
-//                                    println "Processor name: $processorName"
                                     // Add processor to map
                                     processorMap[processorName] = theClass
                                     log.info("Mapped ${processorName} to ${theClass.name}")
@@ -198,7 +155,7 @@ class ProcessingService {
             }
         }
         log.info('Loaded {} processors', processorMap.size())
-//        println "pmap: " + processorMap
+
     }
 
     /**
@@ -236,7 +193,6 @@ class ProcessingService {
         // Get processor from map, and instantiate new instance
         String processorName = config.get("processor")
         log.debug("Processor name is " + processorName)
-        //println "Proc name is : " + processorName
         Class<IProcessor> processorClass = processorMap[processorName]
         if (!processorClass) {
             throw new ProcessorException("No processor found for ${processorName}")
@@ -332,27 +288,15 @@ class ProcessingService {
                 }
             }
             Directory dirMatch = results[0]
-//		 println 'dirMatch: ' + dirMatch
+
             if (dirMatch) {
-//            println "Directory path: ${dirMatch.path}"
                 String textClass = dirMatch.textClass.toLowerCase()
-                //inputDirectories << new File(corpusRoot + '/data/' + textClass + '/' + dirMatch.path)
+
                 inputDirectories << new File(dirMatch.path)
             } else {
                 throw new ProcessorException("Directory not found in database")
             }
         }
-//        for (File dir : inputDirectories) {
-//         println "input directory: " + dir.getAbsolutePath()
-//        }
-
-        // Old code
-//      def inputDirectories = []
-//      config.get("directories").each {
-//         inputDirectories << new File(corpusRoot+"/data/"+it)
-//      }
-//      log.info("inputDirectories: " + inputDirectories)
-        //
 
         // Check before we begin processing
         inputDirectories.each { File it ->
@@ -455,7 +399,6 @@ class Worker implements Runnable {
         // List job as ready
         Job job
         Job.withTransaction() {
-            //println "config key" config.key
             job = Job.findByKey(config.key)
             if (job) {
                 job.ready = true
@@ -479,11 +422,6 @@ class Worker implements Runnable {
                 if (ProcessingService.SEND_EMAIL) {
                     log.debug("Sending email is enabled.")
                     ProcessingService.sendNotificationEmail(recipient, zipFile.getName())
-//                           EmailSender sender = new EmailSender()
-//                           String subject = "ANC2Go Download Ready"
-//                           String message = "Download ready for job.\nDownload link: http://anc.org/downloads/Verbatim-CAS.zip"
-//                           sender.postMail(recipient, subject, message)
-//                           println "email sent to " + recipient
                            log.info("email sent successfully to address {}", recipient)
                 } else {
                     log.info("Email not sent due to debugging option")
@@ -506,7 +444,6 @@ class Worker implements Runnable {
             }
             input.listFiles(new ANCFileFilter(true)).each { processFile(it, newOut) }
         } else {
-//         String filename = input.getName().replace(".anc", ".${processor.getFileExtension()}")
             String filename = input.getName().replace(".hdr", ".${processor.getFileExtension()}")
             File outfile = new File(outDir, filename)
             log.info("Processing " + input.getPath())
@@ -516,8 +453,6 @@ class Worker implements Runnable {
             }
             catch (Exception e) {
                 log.error("Error processing file.", e)
-//            log.error(e.getMessage())
-//            e.printStackTrace()  
             }
             finally {
                 // If file is empty, attempt to delete

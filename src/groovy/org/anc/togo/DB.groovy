@@ -81,10 +81,6 @@ class DB
          def xml = new Processor(name:'XML', className:'org.anc.tool.xml.XMLProcessor')
          def uima = new Processor(name:'UIMA CAS', className:'org.anc.tool.uima.UimaProcessor')
          AnnotationType.list().each {
-//            if (it.name != 'fn')
-//            {
-//               xml.addToTypes(it)
-//            }
             xml.addToTypes(it)
             uima.addToTypes(it);
          }
@@ -135,9 +131,6 @@ class DB
          return
       }
       
-//      File corpScript = new File('conf/corpora/corpora.corp')
-//      def corpora = corporaDSL.getCorporaListForScript(corpScript.getText())
-      
       def corporaScript = ResourceLoader.loadString('conf/corpora/corpora.corp')
       def corpora = corporaDSL.getCorporaListForScript(corporaScript)
       /*
@@ -152,8 +145,6 @@ class DB
       corpora.each { kCorpus ->
          println "corpus name: ${kCorpus.name}"
          Corpus gCorpus = new Corpus(name:kCorpus.name, root:kCorpus.root, ver:kCorpus.version, cid:kCorpus.cid)
-
-         //gCorpus.save(flush:true)
          
          // top level directions
          def corpDirectories = kCorpus.directories
@@ -161,17 +152,9 @@ class DB
          
          // At top of the corpus, directories are spoken/written
          corpDirectories.each { kDir ->
-//            println "processing directory with name ${kDir.name}"
-//            def dirList = []
-//            Directory gDir = new org.anc.togo.db.Directory()
-//            gDir.name = kDir.name
-//            gDir.type = kDir.textClass
-//            gDir.textClass = kDir.textClass
-//            gDir.path = kDir.path
             
             // Next level directories are genres
             def kGenreDirs = kDir.directories
-//            println kGenreDirs.size()
             kGenreDirs.each { kGenreDir ->
                println "\tgenre directory: ${kGenreDir.name}"
                def genreDirList = []
@@ -181,41 +164,19 @@ class DB
                gGenreDir.textClass = kDir.name
                gGenreDir.path = kGenreDir.path
                gGenreDir.did = kGenreDir.did
-   //            dirList << gGenreDir
-               
-               // Don't really need this.
-//               // Next level in is sub-genres
-//               def kSubGenreDirs = kGenreDir.directories
-//               kSubGenreDirs.each { kSubGenreDir ->
-//                  println "\t\tsubgenre directory: ${kSubGenreDir.name}"
-//                  Directory gSubGenreDir = new org.anc.togo.db.Directory()
-//                  gSubGenreDir.name = kSubGenreDir.name
-//                  gSubGenreDir.type = kSubGenreDir.textClass
-//                  gSubGenreDir.textClass = kSubGenreDir.textClass
-//                  gSubGenreDir.path = kSubGenreDir.path
-//                  //genreDirList << gSubGenreDir
-//
-//                  // Wrap up subgenre directory
-//                  gSubGenreDir.save()
-//                  gCorpus.addToDirectories(gSubGenreDir)
-//               }
+
                
                // Wrap up genre directory
                gGenreDir.directories = genreDirList
                gGenreDir.save()
                gCorpus.addToDirectories(gGenreDir)
             }
-            
-            // Wrap up spoken/written directory
-//            gDir.directories = dirList
-//            gDir.save()
-//            gCorpus.addToDirectories(gDir)
+
          }
          
          // Hack for types
          if (gCorpus.name.equals('OANC'))
          {
-//            println 'Found OANC!'
             ['s', 'logical', 'ne', 'hepple', 'biber', 'nc', 'vc'].each {
                def t = AnnotationType.findByName(it)
                if (t)
@@ -230,7 +191,6 @@ class DB
          }
          else if (gCorpus.name.equals('MASC'))
          {
-//            println 'Found MASC!'
             ['s', 'logical', 'ne', 'nc', 'vc', 'mpqa', 'cb', 'ptb', 'ptbtok', 'fn', 'fntok', 'penn'].each {
                AnnotationType type = AnnotationType.findByName(it)
                if (type)
@@ -254,65 +214,6 @@ class DB
             println("successfully saved!!!!!!!!")
          }
       }
-//      if (Corpus.count()) {
-//         return
-//      }
-//      Corpus masc = new Corpus(name:"MASC", root:Globals.PATH.MASC, ver:"1.0.3")
-//      Corpus oanc = new Corpus(name:"OANC", root:Globals.PATH.OANC, ver:"1.1")
-//      
-//      masc.save(flush:true)
-//      oanc.save(flush:true)
-//      
-//      
-//      Directory written = new Directory()
-//      written.name = "written"
-//      written.type = "written"
-//      written.textClass = "written"
-//      written.path = "written"
-//      written.size = 55
-//      written.save()
-//      masc.addToDirectories(written)
-//
-//      Directory spoken = new Directory()
-//      spoken.name = "spoken"
-//      spoken.type = "spoken"
-//      spoken.textClass = "spoken"
-//      spoken.path = "spoken"
-//      spoken.size = 10
-//      spoken.save()
-//      masc.addToDirectories(spoken)
-//         
-//      ['s', 'logical', 'ne', 'nc', 'vc', 'mpqa', 'cb', 'ptb', 'ptbtok', 'fn', 'fntok', 'penn'].each {
-//         AnnotationType type = AnnotationType.findByName(it)
-//         if (type)
-//         {
-//            masc.addToTypes(type)
-//         }
-//         else
-//         {
-//            println("Unable to create CorpusTypes for $type")
-//         }
-//      }
-//      masc.save(flush:true)
-//      
-//      insert(oanc, "charlotte", "spoken", "spoken/face-to-face/charlotte")
-//      insert(oanc, "switchboard", "spoken", "spoken/telephone/switchboard")
-//      insert(oanc, "eggan", "fiction", "written_1/fiction/eggan")
-//      insert(oanc, "slate", "journal", "written_1/journal/slate")
-//      insert(oanc, "verbatim", "journal", "written_1/journal/verbatim")
-//      insert(oanc, "icic", "letters", "written_1/letters/icic")
-//      ['s', 'logical', 'ne', 'hepple', 'biber', 'nc', 'vc'].each {
-//         def t = AnnotationType.findByName(it)
-//         if (t)
-//         {
-//            oanc.addToTypes(t)
-//         }
-//         else
-//         {
-//            println "Unable to add annotation type $it to the OANC"
-//         }
-//      }
-//      oanc.save(flush:true)
       println 'Done initializing corpora'
    }
    
@@ -341,9 +242,7 @@ class DB
                ++count
             }
          }
-//         else if (it.isDirectory()) {
-//            count += countFiles(it)
-//         }
+
       }
       return count
    }
